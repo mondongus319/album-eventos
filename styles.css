@@ -1,0 +1,678 @@
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+
+/* ================================================= */
+/* VARIABLES */
+/* ================================================= */
+
+:root {
+    --verde-oliva: #687052;
+    --verde-oliva-oscuro: #4f573d;
+    --verde-salvia: #aeb49a;
+
+    --crema: #f8f4ec;
+    --crema-claro: #fffdf8;
+
+    --rosa-suave: #c9a29a;
+    --dorado: #b8a276;
+
+    --texto: #4a4a42;
+    --blanco: #ffffff;
+}
+
+
+/* ================================================= */
+/* GENERAL */
+/* ================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family: "DM Sans", sans-serif;
+
+    color: var(--texto);
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(174, 180, 154, 0.18) 0,
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(201, 162, 154, 0.13) 0,
+            transparent 25%
+        ),
+        var(--crema);
+
+    position: relative;
+}
+
+
+/* Decoración sutil tipo mandala */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    width: 420px;
+    height: 420px;
+
+    right: -180px;
+    top: 100px;
+
+    border-radius: 50%;
+
+    background:
+        repeating-radial-gradient(
+            circle,
+            transparent 0,
+            transparent 20px,
+            rgba(104, 112, 82, 0.045) 21px,
+            rgba(104, 112, 82, 0.045) 22px
+        );
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 350px;
+    height: 350px;
+
+    left: -170px;
+    bottom: 80px;
+
+    border-radius: 50%;
+
+    background:
+        repeating-radial-gradient(
+            circle,
+            transparent 0,
+            transparent 18px,
+            rgba(201, 162, 154, 0.045) 19px,
+            rgba(201, 162, 154, 0.045) 20px
+        );
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+/* ================================================= */
+/* CONTENEDOR */
+/* ================================================= */
+
+.container {
+    width: min(1100px, 92%);
+
+    margin: 0 auto;
+
+    padding-bottom: 60px;
+}
+
+
+/* ================================================= */
+/* ENCABEZADO */
+/* ================================================= */
+
+.header {
+    text-align: center;
+
+    padding: 55px 20px 40px;
+
+    position: relative;
+}
+
+
+/* Pequeña decoración superior */
+
+.header::before {
+    content: "✦  ❦  ✦";
+
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: var(--dorado);
+
+    font-size: 18px;
+
+    letter-spacing: 8px;
+}
+
+
+/* Línea decorativa inferior */
+
+.header::after {
+    content: "";
+
+    display: block;
+
+    width: 90px;
+    height: 1px;
+
+    margin: 24px auto 0;
+
+    background: var(--dorado);
+
+    opacity: 0.65;
+}
+
+
+.icono-camara {
+    font-size: 42px;
+
+    margin-bottom: 5px;
+
+    filter: grayscale(0.2);
+}
+
+
+.header h1 {
+    margin: 5px 0 5px;
+
+    color: var(--verde-oliva-oscuro);
+
+    font-family: "Allura", cursive;
+
+    font-size: clamp(55px, 8vw, 82px);
+
+    font-weight: 400;
+
+    line-height: 1;
+}
+
+
+.header p {
+    margin: 15px 0 0;
+
+    color: var(--verde-oliva);
+
+    font-size: 16px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* ================================================= */
+/* SECCIÓN DE SUBIDA */
+/* ================================================= */
+
+.upload-section {
+    max-width: 650px;
+
+    margin: 0 auto 55px;
+
+    padding: 32px;
+
+    background: rgba(255, 253, 248, 0.86);
+
+    border: 1px solid rgba(104, 112, 82, 0.15);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 12px 35px rgba(79, 87, 61, 0.08);
+
+    text-align: center;
+
+    backdrop-filter: blur(5px);
+}
+
+
+/* ================================================= */
+/* INPUT FOTO */
+/* ================================================= */
+
+#foto {
+    display: none;
+}
+
+
+.boton-seleccionar {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 13px 25px;
+
+    border-radius: 30px;
+
+    background: var(--verde-oliva);
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+
+    box-shadow:
+        0 5px 15px rgba(104, 112, 82, 0.2);
+}
+
+
+.boton-seleccionar:hover {
+    background: var(--verde-oliva-oscuro);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(104, 112, 82, 0.25);
+}
+
+
+/* ================================================= */
+/* PREVISUALIZACIÓN */
+/* ================================================= */
+
+.preview-container {
+    margin-top: 25px;
+}
+
+
+.preview {
+    display: block;
+
+    max-width: 100%;
+    max-height: 350px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ================================================= */
+/* BOTÓN SUBIR */
+/* ================================================= */
+
+.boton-subir {
+    border: none;
+
+    padding: 13px 28px;
+
+    border-radius: 30px;
+
+    background: var(--rosa-suave);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+
+    box-shadow:
+        0 5px 15px rgba(201, 162, 154, 0.25);
+}
+
+
+.boton-subir:hover {
+    background: #b68d84;
+
+    transform: translateY(-2px);
+}
+
+
+/* ================================================= */
+/* RESULTADO */
+/* ================================================= */
+
+#resultado {
+    margin-top: 18px;
+
+    font-size: 14px;
+
+    color: var(--verde-oliva);
+}
+
+
+/* ================================================= */
+/* GALERÍA */
+/* ================================================= */
+
+.gallery-section {
+    margin-top: 30px;
+}
+
+
+.gallery-header {
+    text-align: center;
+
+    margin-bottom: 28px;
+}
+
+
+.gallery-header h2 {
+    margin: 0;
+
+    color: var(--verde-oliva-oscuro);
+
+    font-family: "Allura", cursive;
+
+    font-size: 48px;
+
+    font-weight: 400;
+}
+
+
+#contador {
+    margin-top: 4px;
+
+    color: #858477;
+
+    font-size: 13px;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* ================================================= */
+/* GALERÍA DE FOTOS */
+/* ================================================= */
+
+.galeria {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(210px, 1fr));
+
+    gap: 18px;
+}
+
+
+.foto-album {
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+
+    border-radius: 18px;
+
+    cursor: pointer;
+
+    background: var(--crema-claro);
+
+    box-shadow:
+        0 7px 22px rgba(79, 87, 61, 0.10);
+
+    transition:
+        transform 0.25s,
+        box-shadow 0.25s;
+
+    border: 5px solid rgba(255, 253, 248, 0.8);
+}
+
+
+.foto-album:hover {
+    transform: translateY(-5px) rotate(0.5deg);
+
+    box-shadow:
+        0 14px 30px rgba(79, 87, 61, 0.18);
+}
+
+
+/* ================================================= */
+/* VISOR DE FOTO */
+/* ================================================= */
+
+.visor {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(36, 38, 29, 0.94);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    z-index: 99999;
+}
+
+
+.visor.visible {
+    display: flex;
+}
+
+
+.imagen-visor {
+    max-width: 90vw;
+    max-height: 88vh;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ================================================= */
+/* BOTÓN CERRAR */
+/* ================================================= */
+
+.cerrar-visor {
+    position: absolute;
+
+    top: 22px;
+    right: 25px;
+
+    width: 46px;
+    height: 46px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    z-index: 100000;
+
+    transition: 0.2s;
+}
+
+
+.cerrar-visor:hover {
+    background: rgba(255, 255, 255, 0.25);
+
+    transform: rotate(5deg);
+}
+
+
+/* ================================================= */
+/* NAVEGACIÓN DEL VISOR */
+/* ================================================= */
+
+.navegacion-visor {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 50px;
+    height: 50px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.14);
+
+    color: white;
+
+    font-size: 32px;
+
+    cursor: pointer;
+
+    z-index: 100000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: 0.2s;
+}
+
+
+.navegacion-visor:hover {
+    background: rgba(255, 255, 255, 0.28);
+
+    transform:
+        translateY(-50%)
+        scale(1.08);
+}
+
+
+.navegacion-visor.anterior {
+    left: 25px;
+}
+
+
+.navegacion-visor.siguiente {
+    right: 25px;
+}
+
+
+/* ================================================= */
+/* CELULAR */
+/* ================================================= */
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 94%;
+    }
+
+
+    .header {
+        padding: 40px 10px 30px;
+    }
+
+
+    .header h1 {
+        font-size: 58px;
+    }
+
+
+    .header p {
+        font-size: 14px;
+
+        padding: 0 15px;
+    }
+
+
+    .icono-camara {
+        font-size: 34px;
+    }
+
+
+    .upload-section {
+        padding: 25px 18px;
+
+        border-radius: 20px;
+    }
+
+
+    .galeria {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+    }
+
+
+    .foto-album {
+        border-radius: 13px;
+
+        border-width: 3px;
+    }
+
+
+    .gallery-header h2 {
+        font-size: 42px;
+    }
+
+
+    .imagen-visor {
+        max-width: 94vw;
+
+        max-height: 82vh;
+    }
+
+
+    .navegacion-visor {
+        width: 42px;
+        height: 42px;
+
+        font-size: 26px;
+    }
+
+
+    .navegacion-visor.anterior {
+        left: 10px;
+    }
+
+
+    .navegacion-visor.siguiente {
+        right: 10px;
+    }
+
+
+    .cerrar-visor {
+        top: 15px;
+        right: 15px;
+    }
+
+}

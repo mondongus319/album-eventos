@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nuestro Álbum</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="header">
+
+        <div class="icono-camara">📸</div>
+
+        <h1>La despedida de Tatiz</h1>
+
+        <p>Un día para celebrar, reír y recordar</p>
+
+        </header>
+
+
+        <!-- ========================= -->
+        <!-- SUBIR FOTO -->
+        <!-- ========================= -->
+
+        <section class="upload-section">
+
+            <label for="foto" class="boton-seleccionar">
+                📷 Seleccionar una foto
+            </label>
+
+            <input
+                type="file"
+                id="foto"
+                accept="image/*"
+            >
+
+            <!-- Vista previa -->
+
+            <div id="preview-container" class="preview-container">
+
+                <img
+                    id="preview"
+                    class="preview"
+                    alt="Vista previa"
+                >
+
+                <button
+                    id="subirFoto"
+                    class="boton-subir"
+                >
+                    Compartir foto
+                </button>
+
+            </div>
+
+            <p id="resultado"></p>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- GALERÍA -->
+        <!-- ========================= -->
+
+        <section class="gallery-section">
+
+            <div class="gallery-header">
+                <h2>Momentos compartidos</h2>
+
+                <span id="contador"></span>
+            </div>
+
+            <div
+                id="galeria"
+                class="galeria"
+            >
+                Cargando fotos...
+            </div>
+            
+        </section>
+
+        <!-- ========================= -->
+        <!-- VISOR DE FOTO -->
+        <!-- ========================= -->
+
+        <div id="visor" class="visor">
+
+    <button id="cerrarVisor" class="cerrar-visor">
+        ✕
+    </button>
+
+    <button id="fotoAnterior" class="navegacion-visor anterior">
+        ←
+    </button>
+
+    <img
+        id="imagenVisor"
+        class="imagen-visor"
+        alt="Foto ampliada"
+    >
+
+    <button id="fotoSiguiente" class="navegacion-visor siguiente">
+        →
+    </button>
+
+    </div>
+
+    </main>
+
+
+    <!-- Supabase -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Configuración -->
+
+    <script src="config.js"></script>
+
+    <!-- Código -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
