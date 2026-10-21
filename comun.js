@@ -72,7 +72,9 @@ function subirACloudinary(archivo, slug, alProgreso) {
         datos.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
         // Cuenta con carpetas dinámicas: la carpeta no cambia el public_id, así que lo fijamos aquí
         // (la limpieza borra por el prefijo eventos/<slug>/). asset_folder solo ordena la Media Library.
-        datos.append("public_id", `eventos/${slug}/${crypto.randomUUID()}`);
+        // getRandomValues funciona también en http:// (pruebas en la red local); randomUUID no.
+        const aleatorio = [...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, "0")).join("");
+        datos.append("public_id", `eventos/${slug}/${aleatorio}`);
         datos.append("asset_folder", `eventos/${slug}`);
 
         const xhr = new XMLHttpRequest();
