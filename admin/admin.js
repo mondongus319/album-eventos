@@ -192,12 +192,12 @@ function botonWhatsApp(ev, mensaje) {
     });
 }
 
-const saludo = (ev) => `Hola${ev.contacto_nombre ? " " + ev.contacto_nombre : ""} 👋 Te escribimos de ${NOMBRE_MARCA}.`;
+const saludo = (ev) => `Hola${ev.contacto_nombre ? " " + ev.contacto_nombre : ""}. Te escribimos de ${NOMBRE_MARCA}.`;
 
 function mensajeBienvenidaCliente(ev, enlaces) {
     return `${saludo(ev)} Tu álbum "${ev.nombre}" está listo.\n\n` +
-        `📷 Enlace para invitados: ${enlaces.invitado}\n` +
-        `🔒 Tu panel privado (no lo compartas): ${enlaces.anfitrion}\n\n` +
+        `- Enlace para invitados: ${enlaces.invitado}\n` +
+        `- Tu panel privado (no lo compartas): ${enlaces.anfitrion}\n\n` +
         `Recuerda descargar tus fotos antes del ${fechaLarga(ev.expira_en)}; después se borran para siempre.`;
 }
 
