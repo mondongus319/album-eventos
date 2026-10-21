@@ -15,7 +15,13 @@ let capaVisible = $("capaA"), capaOculta = $("capaB");
 
 
 async function iniciar() {
-    const { data } = slug ? await sb.rpc("evento_publico", { p_slug: slug }) : { data: null };
+    const { data, error } = slug ? await sb.rpc("evento_publico", { p_slug: slug }) : { data: null };
+    if (error) {
+        // Sin red al encender el TV: se reintenta sola, nadie tiene que tocar nada.
+        aviso("Sin conexión", "Reintentando en unos segundos…");
+        setTimeout(iniciar, 10000);
+        return;
+    }
     if (!data) return aviso("Álbum no encontrado", "Revisa el enlace.");
     ev = data;
     aplicarPlantilla(ev);
@@ -24,6 +30,11 @@ async function iniciar() {
 
     const qr = qrCanvas(enlacesEvento(slug).invitado, 400).toDataURL();
     $("qr").src = $("qrGrande").src = qr;
+    // por si antes se mostró "Sin conexión": vuelve el estado vacío normal, con su QR
+    $("vacia").hidden = true;
+    $("qrGrande").hidden = false;
+    $("textoVacia").textContent = "Escanea el código y comparte tus fotos";
+    if (!document.fullscreenElement) $("inicio").hidden = false;
     $("titulo").textContent = $("tituloVacia").textContent = ev.nombre;
 
     await recargarLista();
@@ -42,7 +53,7 @@ async function iniciar() {
 function aviso(titulo, texto) {
     $("tituloVacia").textContent = titulo;
     $("textoVacia").textContent = texto;
-    $("qrGrande").hidden = true;
+    $("qrGrande").hidden = !ev;
     $("vacia").hidden = false;
     $("inicio").hidden = true;
 }
@@ -65,12 +76,13 @@ function siguiente() {
     const f = nuevas.shift() || lista[indice++ % lista.length];
     if (!f) return;
     const img = new Image();
+    img.onerror = () => {}; // una foto que no carga se salta: la siguiente llega en el próximo turno
     img.onload = () => {
         capaOculta.src = img.src;
         capaOculta.classList.add("visible");
         capaVisible.classList.remove("visible");
         [capaVisible, capaOculta] = [capaOculta, capaVisible];
-        $("autor").textContent = f.nombre_invitado ? `📷 ${f.nombre_invitado}` : "";
+        $("autor").textContent = f.nombre_invitado ? `subida por ${f.nombre_invitado}` : "";
         $("vacia").hidden = true;
         $("info").hidden = $("qrEsquina").hidden = false;
     };

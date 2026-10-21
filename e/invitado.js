@@ -19,8 +19,15 @@ let cursor = null, finGaleria = false, cargando = false;
 // ==========================================
 
 async function iniciar() {
+    $("zonaSinRed").hidden = true;
     const { data, error } = slug ? await sb.rpc("evento_publico", { p_slug: slug }) : { data: null };
-    if (error || !data) {
+    if (error) {
+        // Falla de red o del servidor: no es lo mismo que un álbum que no existe.
+        $("titulo").textContent = "Sin conexión";
+        $("zonaSinRed").hidden = false;
+        return;
+    }
+    if (!data) {
         $("titulo").textContent = "Álbum no encontrado";
         $("zonaError").hidden = false;
         return;
@@ -30,7 +37,7 @@ async function iniciar() {
     const plantilla = aplicarPlantilla(ev);
     document.title = ev.nombre;
     $("titulo").textContent = ev.nombre;
-    $("icono").textContent = plantilla.icono;
+    $("icono").innerHTML = icono(plantilla.icono);
     $("fecha").textContent = fechaLarga(ev.fecha_evento);
     $("mensaje").textContent = ev.mensaje_bienvenida || "";
     if (ev.portada_url) {
@@ -47,13 +54,15 @@ async function iniciar() {
     alLlegarAlFinal($("centinela"), cargarMas);
 }
 
+$("reintentarCarga").addEventListener("click", iniciar);
+
 
 // ==========================================
 // NOMBRE DEL INVITADO (se pide una sola vez)
 // ==========================================
 
 function mostrarZonaSubida() {
-    const nombre = localStorage.getItem("nombreInvitado");
+    const nombre = guardado.leer("nombreInvitado");
     $("zonaNombre").hidden = !!nombre;
     $("zonaSubir").hidden = !nombre;
     $("nombreVisible").textContent = nombre || "";
@@ -66,13 +75,13 @@ $("formNombre").addEventListener("submit", (e) => {
     e.preventDefault();
     const nombre = $("inputNombre").value.trim().slice(0, 60);
     if (!nombre) return;
-    localStorage.setItem("nombreInvitado", nombre);
+    guardado.escribir("nombreInvitado", nombre);
     mostrarZonaSubida();
 });
 
 $("cambiarNombre").addEventListener("click", () => {
-    $("inputNombre").value = localStorage.getItem("nombreInvitado") || "";
-    localStorage.removeItem("nombreInvitado");
+    $("inputNombre").value = guardado.leer("nombreInvitado") || "";
+    guardado.borrar("nombreInvitado");
     mostrarZonaSubida();
     $("inputNombre").focus();
 });
@@ -108,14 +117,22 @@ async function cargarMas() {
     if (cursor) consulta = consulta.lt("creado_en", cursor);
     const { data, error } = await consulta;
     cargando = false;
+    $("avisoGaleria").hidden = !error;
     if (error) return false;
 
     data.forEach((f) => agregar(f, false));
     if (data.length) cursor = data[data.length - 1].creado_en;
     finGaleria = data.length < POR_PAGINA;
-    if (!fotos.length) $("galeria").innerHTML = '<p class="galeria-vacia">Todavía no hay fotos. ¡Sé el primero en compartir!</p>';
+    if (!fotos.length) {
+        $("galeria").innerHTML = ev.subidas_abiertas
+            ? '<p class="galeria-vacia">Todavía no hay fotos. ¡Sé el primero en compartir!</p>'
+            : '<p class="galeria-vacia">Este álbum no tiene fotos.</p>';
+    }
     return !finGaleria;
 }
+
+
+$("reintentarGaleria").addEventListener("click", () => { $("avisoGaleria").hidden = true; cargarMas(); });
 
 
 // ==========================================
@@ -139,6 +156,11 @@ $("archivos").addEventListener("change", async () => {
         const esVideo = archivo.type.startsWith("video/") || /\.(mp4|mov)$/i.test(archivo.name);
         const item = { archivo, esVideo, estado: "espera", progreso: 0 };
         cola.push(item);
+        // Mismos formatos que permite el preset de Cloudinary; lo demás se avisa de una vez.
+        if (!/^(image|video)\//.test(archivo.type) && !/\.(jpe?g|png|webp|heic|heif|mp4|mov)$/i.test(archivo.name)) {
+            rechazar(item, "ese tipo de archivo no se puede subir");
+            continue;
+        }
         if (!esVideo) continue;
 
         if (archivo.size > 100 * 1024 * 1024) { rechazar(item, "el video pesa más de 100 MB"); continue; }
@@ -197,12 +219,14 @@ async function procesar(item) {
             ancho: r.width,
             alto: r.height,
             bytes: r.bytes,
-            nombre_invitado: localStorage.getItem("nombreInvitado"),
+            nombre_invitado: guardado.leer("nombreInvitado"),
         };
         await conReintentos(async () => {
             const { error } = await sb.from("fotos").insert(fila);
             if (!error || error.code === "23505") return; // 23505 = ya estaba registrada (reintento)
-            const mensaje = error.code === "42501" ? "las subidas se cerraron o se llegó al límite de videos" : error.message;
+            if (error.code === "42501") revisarSiCerro();
+            const mensaje = error.code === "42501" ? "las subidas se cerraron o se llegó al límite de videos"
+                : error.code ? "no se pudo guardar en el álbum" : "sin conexión";
             throw Object.assign(new Error(mensaje), { reintentable: !error.code, final: !!error.code });
         });
 
@@ -217,6 +241,16 @@ async function procesar(item) {
         activos--;
         pintarBarra();
         bombear();
+    }
+}
+
+// Si la base de datos rechazó la foto, puede que el plazo de subida terminara mientras el invitado estaba en la página.
+async function revisarSiCerro() {
+    const { data } = await sb.rpc("evento_publico", { p_slug: ev.slug });
+    if (data && !data.subidas_abiertas) {
+        ev.subidas_abiertas = false;
+        $("zonaSubir").hidden = $("zonaNombre").hidden = true;
+        $("zonaCerrada").hidden = false;
     }
 }
 
@@ -240,8 +274,12 @@ function pintarBarra() {
     $("barraSubida").classList.add("visible");
     $("progreso").style.transform = `scaleX(${avance})`;
     $("textoSubida").textContent = pendientes
-        ? `Subiendo… ${listos} de ${validos} · puedes seguir mirando`
-        : `✓ ${listos} archivo${listos === 1 ? "" : "s"} compartido${listos === 1 ? "" : "s"}` + (errores.length ? ` · ${errores.length} con error` : "");
+        ? (navigator.onLine
+            ? `Subiendo… ${listos} de ${validos} · puedes seguir mirando`
+            : `Sin conexión · ${listos} de ${validos} listos; seguimos apenas vuelva la señal`)
+        : listos
+            ? `Listo: ${listos} archivo${listos === 1 ? "" : "s"} compartido${listos === 1 ? "" : "s"}` + (errores.length ? ` · ${errores.length} con error` : "")
+            : `No se pudo subir ${errores.length === 1 ? "el archivo" : `ninguno de los ${errores.length} archivos`}`;
     $("reintentar").hidden = pendientes > 0 || !errores.some((i) => !i.final);
     $("erroresSubida").replaceChildren(...errores.map((i) => {
         const li = document.createElement("li");
@@ -253,6 +291,9 @@ function pintarBarra() {
         ocultarBarra = setTimeout(() => { $("barraSubida").classList.remove("visible"); cola.length = 0; }, 4000);
     }
 }
+
+addEventListener("online", pintarBarra);
+addEventListener("offline", pintarBarra);
 
 addEventListener("beforeunload", (e) => {
     if (cola.some((i) => i.estado === "espera" || i.estado === "subiendo")) e.preventDefault();

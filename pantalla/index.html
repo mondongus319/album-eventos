@@ -27,12 +27,12 @@
     <div class="pantalla-qr" id="qrEsquina" hidden>
         <img id="qr" alt="Código QR del álbum">
         <div>Comparte tus fotos</div>
-        <div style="opacity:.6">Hecho con <span class="marca"></span></div>
+        <div style="opacity:.8">Hecho con <span class="marca"></span></div>
     </div>
 
-    <div class="pantalla-inicio" id="inicio">
-        <div>📺<br>Toca para ver en pantalla completa</div>
-    </div>
+    <button type="button" class="pantalla-inicio" id="inicio">
+        <span><span data-icono="tv" class="inicio-icono"></span><br>Toca o presiona Enter para ver en pantalla completa</span>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>

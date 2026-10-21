@@ -11,7 +11,7 @@
     <header class="portada" id="portada">
         <img id="portadaImg" class="portada-img" alt="" hidden>
         <div class="portada-texto">
-            <div class="portada-icono" id="icono">📸</div>
+            <div class="portada-icono" id="icono" aria-hidden="true"></div>
             <h1 id="titulo">Cargando…</h1>
             <p class="fecha" id="fecha"></p>
             <p class="mensaje" id="mensaje"></p>
@@ -24,6 +24,7 @@
             <h2>¿Cómo te llamas?</h2>
             <p class="nota">Así los anfitriones sabrán quién compartió cada foto.</p>
             <form id="formNombre" class="form-fila">
+                <label for="inputNombre" class="solo-lectores">Tu nombre</label>
                 <input id="inputNombre" maxlength="60" required placeholder="Tu nombre" autocomplete="given-name">
                 <button class="boton">Continuar</button>
             </form>
@@ -31,7 +32,7 @@
 
         <section class="tarjeta centro" id="zonaSubir" hidden>
             <p>Hola, <strong id="nombreVisible"></strong> · <button type="button" id="cambiarNombre" class="enlace">cambiar</button></p>
-            <label class="boton boton-grande" for="archivos">📷 Subir fotos</label>
+            <label class="boton boton-grande" for="archivos"><span data-icono="camera"></span> Subir fotos</label>
             <input type="file" id="archivos" multiple accept="image/*,video/*,.heic,.heif" hidden>
             <p class="nota" id="notaVideos"></p>
             <p class="aviso-legal">
@@ -43,6 +44,12 @@
         <section class="tarjeta centro" id="zonaCerrada" hidden>
             <h2>Las subidas están cerradas</h2>
             <p class="nota">Gracias por compartir. Todavía puedes ver las fotos del evento.</p>
+        </section>
+
+        <section class="tarjeta centro" id="zonaSinRed" hidden>
+            <h2>No pudimos abrir el álbum</h2>
+            <p class="nota">Parece un problema de conexión. Revisa tus datos o el Wi-Fi e intenta de nuevo.</p>
+            <button type="button" class="boton" id="reintentarCarga"><span data-icono="rotate-ccw"></span> Intentar de nuevo</button>
         </section>
 
         <section class="tarjeta centro" id="zonaError" hidden>
@@ -57,6 +64,10 @@
             </div>
             <div id="galeria" class="galeria"></div>
             <div id="centinela" class="centinela"></div>
+            <p class="galeria-aviso" id="avisoGaleria" role="status" hidden>
+                No se pudieron cargar más fotos.
+                <button type="button" class="enlace" id="reintentarGaleria">Intentar de nuevo</button>
+            </p>
         </section>
 
     </main>
@@ -65,7 +76,7 @@
 
     <div id="barraSubida" class="barra-subida">
         <div class="barra-texto">
-            <span id="textoSubida"></span>
+            <span id="textoSubida" role="status" aria-live="polite"></span>
             <button type="button" id="reintentar" class="enlace" hidden>Reintentar</button>
         </div>
         <div class="progreso"><div id="progreso"></div></div>

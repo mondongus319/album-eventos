@@ -20,6 +20,12 @@
 
     <main class="contenedor">
 
+        <section class="tarjeta centro" id="zonaSinRed" hidden>
+            <h2>No pudimos abrir tu panel</h2>
+            <p class="nota">Parece un problema de conexión. Revisa tus datos o el Wi-Fi e intenta de nuevo.</p>
+            <button type="button" class="boton" id="reintentarCarga"><span data-icono="rotate-ccw"></span> Intentar de nuevo</button>
+        </section>
+
         <section class="tarjeta centro" id="zonaError" hidden>
             <h2>Enlace no válido</h2>
             <p class="nota">Revisa que copiaste el enlace completo. Si la fecha límite ya pasó, las fotos fueron eliminadas definitivamente.</p>
@@ -35,25 +41,26 @@
                     <div><strong id="cMin">0</strong><span>min</span></div>
                     <div><strong id="cSeg">0</strong><span>seg</span></div>
                 </div>
-                <p class="alerta">⚠️ Después de esta fecha tus fotos se borran para siempre.</p>
+                <p class="alerta"><span data-icono="triangle-alert"></span> Después de esta fecha tus fotos se borran para siempre.</p>
+                <p class="alerta" id="plazoVencido" hidden>El plazo terminó: las fotos se están eliminando.</p>
                 <p class="nota" id="estadoSubidas"></p>
                 <div class="estadisticas">
-                    <span><strong id="total">0</strong> archivos</span>
-                    <span><strong id="ocultas">0</strong> ocultos</span>
+                    <span><strong id="total">0</strong> <span id="tTotal">archivos</span></span>
+                    <span><strong id="ocultas">0</strong> <span id="tOcultas">ocultos</span></span>
                     <span><strong id="peso">0</strong> MB</span>
                 </div>
                 <div class="acciones">
-                    <a class="boton boton-sec" id="verPantalla" target="_blank" hidden>📺 Abrir pantalla en vivo</a>
-                    <a class="boton boton-sec" id="verAlbum" target="_blank">👀 Ver como invitado</a>
+                    <a class="boton boton-sec" id="verPantalla" target="_blank" hidden><span data-icono="tv"></span> Abrir pantalla en vivo</a>
+                    <a class="boton boton-sec" id="verAlbum" target="_blank"><span data-icono="images"></span> Ver como invitado</a>
                 </div>
             </section>
 
             <section class="tarjeta centro">
                 <h2>Descargar todo en ZIP</h2>
                 <p class="nota">Se arma en tu dispositivo en partes de 200 archivos, con la calidad original. Descarga cada parte y guárdala.</p>
-                <button class="boton" id="prepararZip">⬇️ Preparar descarga</button>
+                <button class="boton" id="prepararZip"><span data-icono="download"></span> Preparar descarga</button>
                 <ul class="partes" id="partes"></ul>
-                <p class="nota" id="estadoZip"></p>
+                <p class="nota" id="estadoZip" role="status" aria-live="polite"></p>
             </section>
 
             <section>
@@ -61,6 +68,7 @@
                     <h2>Todas las fotos</h2>
                     <span>Toca “Ocultar” para que los invitados y la pantalla no la vean.</span>
                 </div>
+                <p class="galeria-aviso" id="avisoGaleria" role="status" aria-live="polite" hidden></p>
                 <div id="galeria" class="galeria"></div>
                 <div id="centinela" class="centinela"></div>
             </section>

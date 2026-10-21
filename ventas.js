@@ -3,7 +3,7 @@
 // ==========================================
 
 const wa = (texto) => `https://wa.me/${WHATSAPP_NEGOCIO}?text=${encodeURIComponent(texto)}`;
-const icono = (id) => `<svg class="icono" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+const iconoSprite = (id) => `<svg class="icono" aria-hidden="true"><use href="#i-${id}"/></svg>`;
 const pesos = (n) => "$" + n.toLocaleString("es-CO");
 
 document.querySelectorAll(".whatsapp").forEach((a) => (a.href = wa("Hola, quiero información del álbum QR para mi evento.")));
@@ -46,8 +46,8 @@ sb.from("paquetes").select("*").order("precio").then(({ data, error }) => {
         tarjeta.innerHTML = `
             <h3></h3>
             <p class="precio">${pesos(p.precio)}<span>pago único</span></p>
-            <ul>${items.map(([i, texto, no]) => `<li${no ? ' class="no"' : ""}>${icono(i)}<span></span></li>`).join("")}</ul>
-            <a class="pildora" target="_blank" rel="noopener">lo quiero ${icono("arrow-right")}</a>`;
+            <ul>${items.map(([i, texto, no]) => `<li${no ? ' class="no"' : ""}>${iconoSprite(i)}<span></span></li>`).join("")}</ul>
+            <a class="pildora" target="_blank" rel="noopener">lo quiero ${iconoSprite("arrow-right")}</a>`;
         tarjeta.querySelector("h3").textContent = p.nombre.toLowerCase();
         tarjeta.querySelectorAll("li span").forEach((s, i) => (s.textContent = items[i][1]));
         tarjeta.querySelector("a").href = wa(`Hola, me interesa el paquete ${p.nombre} para mi evento.`);
