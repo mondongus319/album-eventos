@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" data-plantilla="corporativa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin · Álbumes QR</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="admin">
+<main class="contenedor">
+
+    <section class="tarjeta" id="login" hidden style="margin-top: 60px; max-width: 420px;">
+        <h2>Entrar</h2>
+        <form id="formLogin" class="form-grid" style="grid-template-columns: 1fr;">
+            <label>Correo <input type="email" id="correo" required autocomplete="username"></label>
+            <label>Contraseña <input type="password" id="clave" required autocomplete="current-password"></label>
+            <button class="boton">Entrar</button>
+            <p id="errorLogin" class="nota" style="color:#b03a2e"></p>
+        </form>
+    </section>
+
+    <div id="panel" hidden>
+        <header class="acciones" style="justify-content: space-between; padding: 20px 0;">
+            <h1 style="margin:0; font-size: 26px;">Panel · <span class="marca"></span></h1>
+            <span class="nota"><span id="usuario"></span> · <button class="enlace" id="salir">Salir</button></span>
+        </header>
+
+        <section class="tarjeta" id="zonaAvisos" hidden>
+            <h2>Avisar hoy</h2>
+            <p class="nota">Eventos que vencen en 7 o en 2 días. El botón abre WhatsApp con el mensaje listo.</p>
+            <div id="avisos" class="lista-eventos"></div>
+        </section>
+
+        <section class="tarjeta" id="resultado" hidden></section>
+
+        <section class="tarjeta">
+            <h2>Nuevo evento</h2>
+            <form id="formEvento" class="form-grid">
+                <label class="ancho">Nombre del evento <input name="nombre" required maxlength="120" placeholder="Ana & Luis"></label>
+                <label>Tipo <select name="tipo" id="tipo" required></select></label>
+                <label>Fecha del evento <input type="date" name="fecha_evento" required></label>
+                <label>Paquete <select name="paquete_id" id="paquete" required></select></label>
+                <label>Plantilla <select name="plantilla" id="plantilla" required></select></label>
+                <div class="form-fila">
+                    <label>Color principal <input type="color" name="color_primario" id="colorPrimario"></label>
+                    <label>Color secundario <input type="color" name="color_secundario" id="colorSecundario"></label>
+                </div>
+                <label>Foto de portada (opcional) <input type="file" id="portada" accept="image/*"></label>
+                <label class="ancho">Mensaje de bienvenida <textarea name="mensaje_bienvenida" rows="2" maxlength="500"></textarea></label>
+                <label>Nombre del cliente <input name="contacto_nombre" maxlength="80"></label>
+                <label>WhatsApp del cliente <input name="contacto_whatsapp" inputmode="tel" placeholder="3001234567"></label>
+                <label>Correo del cliente <input type="email" name="contacto_email"></label>
+                <div class="ancho">
+                    <button class="boton" id="crear">Crear evento</button>
+                    <span class="nota" id="estadoCrear"></span>
+                </div>
+            </form>
+        </section>
+
+        <section class="tarjeta">
+            <h2>Eventos</h2>
+            <div id="lista" class="lista-eventos"><p class="nota">Cargando…</p></div>
+        </section>
+
+        <section class="tarjeta">
+            <h2>Limpieza automática</h2>
+            <p class="nota">Corre sola todos los días a las 3:00 a. m. Aquí ves lo último que hizo.</p>
+            <button class="boton boton-sec boton-chico" id="limpiarAhora">Correr limpieza ahora</button>
+            <span class="nota" id="estadoLimpieza"></span>
+            <ul id="log" class="log"></ul>
+        </section>
+    </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="/config.js"></script>
+<script src="/comun.js"></script>
+<script src="/admin/admin.js"></script>
+</body>
+</html>

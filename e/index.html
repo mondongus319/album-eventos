@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" data-plantilla="minimalista">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Álbum del evento</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+    <header class="portada" id="portada">
+        <img id="portadaImg" class="portada-img" alt="" hidden>
+        <div class="portada-texto">
+            <div class="portada-icono" id="icono">📸</div>
+            <h1 id="titulo">Cargando…</h1>
+            <p class="fecha" id="fecha"></p>
+            <p class="mensaje" id="mensaje"></p>
+        </div>
+    </header>
+
+    <main class="contenedor">
+
+        <section class="tarjeta centro" id="zonaNombre" hidden>
+            <h2>¿Cómo te llamas?</h2>
+            <p class="nota">Así los anfitriones sabrán quién compartió cada foto.</p>
+            <form id="formNombre" class="form-fila">
+                <input id="inputNombre" maxlength="60" required placeholder="Tu nombre" autocomplete="given-name">
+                <button class="boton">Continuar</button>
+            </form>
+        </section>
+
+        <section class="tarjeta centro" id="zonaSubir" hidden>
+            <p>Hola, <strong id="nombreVisible"></strong> · <button type="button" id="cambiarNombre" class="enlace">cambiar</button></p>
+            <label class="boton boton-grande" for="archivos">📷 Subir fotos</label>
+            <input type="file" id="archivos" multiple accept="image/*,video/*,.heic,.heif" hidden>
+            <p class="nota" id="notaVideos"></p>
+            <p class="aviso-legal">
+                Al subir fotos aceptas que se compartan con los anfitriones e invitados de este evento.
+                <a href="/terminos.html" target="_blank">Términos y datos personales</a>
+            </p>
+        </section>
+
+        <section class="tarjeta centro" id="zonaCerrada" hidden>
+            <h2>Las subidas están cerradas</h2>
+            <p class="nota">Gracias por compartir. Todavía puedes ver las fotos del evento.</p>
+        </section>
+
+        <section class="tarjeta centro" id="zonaError" hidden>
+            <h2>Álbum no disponible</h2>
+            <p class="nota">Revisa el enlace o el código QR. Si el evento ya terminó, sus fotos pudieron ser eliminadas.</p>
+        </section>
+
+        <section id="zonaGaleria" hidden>
+            <div class="galeria-titulo">
+                <h2>Momentos compartidos</h2>
+                <span id="contador"></span>
+            </div>
+            <div id="galeria" class="galeria"></div>
+            <div id="centinela" class="centinela"></div>
+        </section>
+
+    </main>
+
+    <footer class="pie">Hecho con <a href="/" class="marca"></a></footer>
+
+    <div id="barraSubida" class="barra-subida" hidden>
+        <div class="barra-texto">
+            <span id="textoSubida"></span>
+            <button type="button" id="reintentar" class="enlace" hidden>Reintentar</button>
+        </div>
+        <div class="progreso"><div id="progreso"></div></div>
+        <ul id="erroresSubida" class="errores-subida"></ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="/config.js"></script>
+    <script src="/comun.js"></script>
+    <script src="/e/invitado.js"></script>
+</body>
+</html>

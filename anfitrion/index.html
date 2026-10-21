@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" data-plantilla="minimalista">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="no-referrer">
+    <title>Panel del anfitrión</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+    <header class="portada">
+        <div class="portada-texto">
+            <p class="nota" style="margin:0">Panel privado del anfitrión</p>
+            <h1 id="titulo">Cargando…</h1>
+            <p class="fecha" id="fecha"></p>
+        </div>
+    </header>
+
+    <main class="contenedor">
+
+        <section class="tarjeta centro" id="zonaError" hidden>
+            <h2>Enlace no válido</h2>
+            <p class="nota">Revisa que copiaste el enlace completo. Si la fecha límite ya pasó, las fotos fueron eliminadas definitivamente.</p>
+        </section>
+
+        <div id="panel" hidden>
+            <section class="tarjeta centro">
+                <h2>Descarga tus fotos antes del</h2>
+                <p style="font-size:20px; font-weight:600; margin:0" id="fechaLimite"></p>
+                <div class="cuenta" id="cuenta">
+                    <div><strong id="cDias">0</strong><span>días</span></div>
+                    <div><strong id="cHoras">0</strong><span>horas</span></div>
+                    <div><strong id="cMin">0</strong><span>min</span></div>
+                    <div><strong id="cSeg">0</strong><span>seg</span></div>
+                </div>
+                <p class="alerta">⚠️ Después de esta fecha tus fotos se borran para siempre.</p>
+                <p class="nota" id="estadoSubidas"></p>
+                <div class="estadisticas">
+                    <span><strong id="total">0</strong> archivos</span>
+                    <span><strong id="ocultas">0</strong> ocultos</span>
+                    <span><strong id="peso">0</strong> MB</span>
+                </div>
+                <div class="acciones">
+                    <a class="boton boton-sec" id="verPantalla" target="_blank" hidden>📺 Abrir pantalla en vivo</a>
+                    <a class="boton boton-sec" id="verAlbum" target="_blank">👀 Ver como invitado</a>
+                </div>
+            </section>
+
+            <section class="tarjeta centro">
+                <h2>Descargar todo en ZIP</h2>
+                <p class="nota">Se arma en tu dispositivo en partes de 200 archivos, con la calidad original. Descarga cada parte y guárdala.</p>
+                <button class="boton" id="prepararZip">⬇️ Preparar descarga</button>
+                <ul class="partes" id="partes"></ul>
+                <p class="nota" id="estadoZip"></p>
+            </section>
+
+            <section>
+                <div class="galeria-titulo">
+                    <h2>Todas las fotos</h2>
+                    <span>Toca “Ocultar” para que los invitados y la pantalla no la vean.</span>
+                </div>
+                <div id="galeria" class="galeria"></div>
+                <div id="centinela" class="centinela"></div>
+            </section>
+        </div>
+
+    </main>
+
+    <footer class="pie">Hecho con <a href="/" class="marca"></a></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="/config.js"></script>
+    <script src="/comun.js"></script>
+    <script src="/anfitrion/anfitrion.js"></script>
+</body>
+</html>

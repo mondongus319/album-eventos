@@ -1,132 +1,121 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="es" data-plantilla="minimalista">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Nuestro Álbum</title>
-
-    <link rel="stylesheet" href="styles.css">
+    <title>Álbum QR para tu evento · Fotos de todos tus invitados en un solo lugar</title>
+    <meta name="description" content="Tus invitados escanean un QR y suben sus fotos y videos sin descargar apps. Para bodas, 15 años, cumpleaños, grados y eventos de empresa en Colombia.">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/styles.css">
 </head>
+<body class="ventas">
 
-<body>
+<header class="hero">
+    <p class="nota marca" style="letter-spacing:3px; text-transform:uppercase; font-weight:600"></p>
+    <h1>Todas las fotos de tu evento,<br>en un solo álbum</h1>
+    <p>Tus invitados escanean un código QR y suben sus fotos y videos desde el celular. Sin apps, sin registrarse. Tú las descargas todas en calidad original.</p>
+    <a class="boton boton-grande whatsapp" target="_blank" style="max-width:320px">💬 Cotiza por WhatsApp</a>
+    <p class="nota" style="margin-top:14px">Bodas · 15 años · Cumpleaños · Grados · Eventos de empresa</p>
+</header>
 
-    <main class="container">
+<main class="contenedor">
 
-        <header class="header">
-
-        <div class="icono-camara">📸</div>
-
-        <h1>La despedida de Tatiz</h1>
-
-        <p>Un día para celebrar, reír y recordar</p>
-
-        </header>
-
-
-        <!-- ========================= -->
-        <!-- SUBIR FOTO -->
-        <!-- ========================= -->
-
-        <section class="upload-section">
-
-            <label for="foto" class="boton-seleccionar">
-                📷 Seleccionar una foto
-            </label>
-
-            <input
-                type="file"
-                id="foto"
-                accept="image/*"
-            >
-
-            <!-- Vista previa -->
-
-            <div id="preview-container" class="preview-container">
-
-                <img
-                    id="preview"
-                    class="preview"
-                    alt="Vista previa"
-                >
-
-                <button
-                    id="subirFoto"
-                    class="boton-subir"
-                >
-                    Compartir foto
-                </button>
-
+    <section class="seccion">
+        <h2>Cómo funciona</h2>
+        <div class="rejilla">
+            <div class="paso">
+                <span class="num">1</span>
+                <h3>Creamos tu álbum</h3>
+                <p class="nota">Con el nombre, colores y estilo de tu evento. Te entregamos tarjetas QR listas para imprimir.</p>
             </div>
-
-            <p id="resultado"></p>
-
-        </section>
-
-
-        <!-- ========================= -->
-        <!-- GALERÍA -->
-        <!-- ========================= -->
-
-        <section class="gallery-section">
-
-            <div class="gallery-header">
-                <h2>Momentos compartidos</h2>
-
-                <span id="contador"></span>
+            <div class="paso">
+                <span class="num">2</span>
+                <h3>Tus invitados suben</h3>
+                <p class="nota">Escanean el QR, escriben su nombre y comparten fotos y videos. Opcional: se ven en vivo en una pantalla.</p>
             </div>
-
-            <div
-                id="galeria"
-                class="galeria"
-            >
-                Cargando fotos...
+            <div class="paso">
+                <span class="num">3</span>
+                <h3>Descargas todo</h3>
+                <p class="nota">Desde tu panel privado bajas todo en ZIP, en calidad original, antes de la fecha límite.</p>
             </div>
-            
-        </section>
+        </div>
+    </section>
 
-        <!-- ========================= -->
-        <!-- VISOR DE FOTO -->
-        <!-- ========================= -->
+    <section class="seccion">
+        <h2>Paquetes</h2>
+        <p class="nota centro" style="margin-top:-14px">Pago único por evento. Sin mensualidades.</p>
+        <div class="rejilla" id="paquetes"><p class="nota">Cargando precios…</p></div>
+    </section>
 
-        <div id="visor" class="visor">
+    <section class="seccion">
+        <h2>Míralo funcionando</h2>
+        <div class="rejilla">
+            <a class="demo" href="/e/?s=demo-boda">
+                <img src="https://res.cloudinary.com/demo/image/upload/c_fill,w_600,h_450,q_auto,f_auto/couple.jpg" alt="Demo de boda" loading="lazy">
+                <div><strong>Boda</strong><br><span class="nota">Plantilla boda elegante</span></div>
+            </a>
+            <a class="demo" href="/e/?s=demo-quince">
+                <img src="https://res.cloudinary.com/demo/image/upload/c_fill,w_600,h_450,q_auto,f_auto/samples/smile.jpg" alt="Demo de 15 años" loading="lazy">
+                <div><strong>15 años</strong><br><span class="nota">Plantilla quince años</span></div>
+            </a>
+            <a class="demo" href="/e/?s=demo-cumple">
+                <img src="https://res.cloudinary.com/demo/image/upload/c_fill,w_600,h_450,q_auto,f_auto/samples/balloons.jpg" alt="Demo de cumpleaños" loading="lazy">
+                <div><strong>Cumpleaños</strong><br><span class="nota">Plantilla infantil</span></div>
+            </a>
+            <a class="demo" href="/e/?s=demo-empresa">
+                <img src="https://res.cloudinary.com/demo/image/upload/c_fill,w_600,h_450,q_auto,f_auto/samples/people/kitchen-bar.jpg" alt="Demo de evento de empresa" loading="lazy">
+                <div><strong>Empresa</strong><br><span class="nota">Plantilla corporativa</span></div>
+            </a>
+        </div>
+        <p class="centro"><a class="boton boton-sec" href="/pantalla/?s=demo-boda" target="_blank">📺 Ver la pantalla en vivo</a></p>
+    </section>
 
-    <button id="cerrarVisor" class="cerrar-visor">
-        ✕
-    </button>
+    <section class="seccion">
+        <h2>Preguntas frecuentes</h2>
+        <div class="rejilla">
+            <div class="paso"><h3>¿Los invitados instalan algo?</h3><p class="nota">No. Funciona en el navegador de cualquier celular.</p></div>
+            <div class="paso"><h3>¿Por cuánto tiempo están las fotos?</h3><p class="nota">Según el paquete, de 15 a 45 días. Después se borran definitivamente, así que descárgalas a tiempo.</p></div>
+            <div class="paso"><h3>¿Quién ve las fotos?</h3><p class="nota">Solo quien tenga el enlace o el QR de tu evento. Tú puedes ocultar las que no quieras mostrar.</p></div>
+        </div>
+    </section>
 
-    <button id="fotoAnterior" class="navegacion-visor anterior">
-        ←
-    </button>
+</main>
 
-    <img
-        id="imagenVisor"
-        class="imagen-visor"
-        alt="Foto ampliada"
-    >
+<footer class="pie">
+    <span class="marca"></span> · <a href="/terminos.html">Términos y tratamiento de datos</a>
+</footer>
 
-    <button id="fotoSiguiente" class="navegacion-visor siguiente">
-        →
-    </button>
+<a class="whatsapp-flotante whatsapp" target="_blank" aria-label="Escríbenos por WhatsApp">💬 WhatsApp</a>
 
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/config.js"></script>
+<script src="/comun.js"></script>
+<script>
+    const wa = (texto) => `https://wa.me/${WHATSAPP_NEGOCIO}?text=${encodeURIComponent(texto)}`;
+    document.querySelectorAll(".whatsapp").forEach((a) => (a.href = wa("Hola, quiero información del álbum QR para mi evento.")));
 
-    </main>
-
-
-    <!-- Supabase -->
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- Configuración -->
-
-    <script src="config.js"></script>
-
-    <!-- Código -->
-
-    <script src="script.js"></script>
-
+    sb.from("paquetes").select("*").order("precio").then(({ data }) => {
+        if (!data?.length) return;
+        document.getElementById("paquetes").replaceChildren(...data.map((p) => {
+            const caja = document.createElement("div");
+            caja.className = "paquete" + (p.id === "boda" ? " destacado" : "");
+            const ventajas = [
+                `Subidas hasta ${p.dias_subida} día${p.dias_subida === 1 ? "" : "s"} después del evento`,
+                `${p.dias_descarga} días para descargar todo`,
+                `Videos de hasta ${p.max_video_seg} s` + (p.max_videos ? ` (máx. ${p.max_videos})` : ""),
+                p.pantalla_vivo ? "Pantalla en vivo para TV o proyector" : null,
+                "Tarjetas QR para imprimir",
+                "Descarga en ZIP, calidad original",
+            ].filter(Boolean);
+            caja.innerHTML = `<h3></h3><p class="precio"></p><ul></ul><a class="boton" target="_blank">Lo quiero</a>`;
+            caja.querySelector("h3").textContent = p.nombre;
+            caja.querySelector(".precio").textContent = `$${p.precio.toLocaleString("es-CO")}`;
+            caja.querySelector("ul").append(...ventajas.map((v) => Object.assign(document.createElement("li"), { textContent: v })));
+            caja.querySelector("a").href = wa(`Hola, me interesa el paquete ${p.nombre} para mi evento.`);
+            return caja;
+        }));
+    });
+</script>
 </body>
-
 </html>

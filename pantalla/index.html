@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" data-plantilla="minimalista">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantalla en vivo</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="pantalla">
+
+    <img class="capa" id="capaA" alt="">
+    <img class="capa" id="capaB" alt="">
+
+    <div class="pantalla-vacia" id="vacia" hidden>
+        <div>
+            <h1 id="tituloVacia" style="color:#fff"></h1>
+            <p id="textoVacia">Escanea el código y comparte tus fotos</p>
+            <img id="qrGrande" alt="Código QR del álbum">
+        </div>
+    </div>
+
+    <div class="pantalla-info" id="info" hidden>
+        <h1 id="titulo"></h1>
+        <p id="autor"></p>
+    </div>
+
+    <div class="pantalla-qr" id="qrEsquina" hidden>
+        <img id="qr" alt="Código QR del álbum">
+        <div>Comparte tus fotos</div>
+        <div style="opacity:.6">Hecho con <span class="marca"></span></div>
+    </div>
+
+    <div class="pantalla-inicio" id="inicio">
+        <div>📺<br>Toca para ver en pantalla completa</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <script src="/config.js"></script>
+    <script src="/comun.js"></script>
+    <script src="/pantalla/pantalla.js"></script>
+</body>
+</html>
