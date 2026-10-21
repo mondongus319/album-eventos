@@ -82,6 +82,12 @@
 /* BASE                                              */
 /* ================================================= */
 
+:root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);       /* respuesta inmediata */
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);   /* movimiento en pantalla */
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);    /* paneles que suben, estilo iOS */
+}
+
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 
@@ -139,11 +145,14 @@ h1, h2, h3 { font-family: var(--f-titulo); font-weight: var(--peso-titulo); line
     font: 600 15px var(--f-cuerpo);
     text-decoration: none;
     cursor: pointer;
-    transition: transform 0.2s, filter 0.2s;
+    transition: transform 160ms var(--ease-out), filter 200ms ease;
     box-shadow: 0 5px 15px color-mix(in srgb, var(--primario) 25%, transparent);
 }
-.boton:hover { filter: brightness(0.92); transform: translateY(-2px); }
+.boton:active { transform: scale(0.97); }
 .boton:disabled { opacity: 0.55; cursor: wait; transform: none; }
+@media (hover: hover) and (pointer: fine) {
+    .boton:hover { filter: brightness(0.92); }
+}
 
 .boton-grande { width: 100%; max-width: 360px; padding: 20px 30px; font-size: 20px; }
 .boton-sec { background: transparent; color: var(--primario); box-shadow: inset 0 0 0 2px var(--primario); }
@@ -229,8 +238,22 @@ label > input, label > select, label > textarea { margin-top: 6px; font-weight: 
     background: color-mix(in srgb, var(--primario) 8%, var(--tarjeta));
     cursor: pointer;
 }
-.miniatura img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
-.miniatura:hover img { transform: scale(1.04); }
+.miniatura { transition: transform 160ms var(--ease-out), opacity 200ms ease; }
+.miniatura:active { transform: scale(0.97); }
+.miniatura img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    opacity: 0;
+    transition: opacity 300ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.miniatura img.cargada { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+    .miniatura:hover img { transform: scale(1.04); }
+}
+/* La foto que el invitado acaba de subir entra con un pequeño aviso de "llegó". */
+.miniatura.nueva { transition: transform 400ms var(--ease-out), opacity 400ms var(--ease-out); }
+@starting-style {
+    .miniatura.nueva { opacity: 0; transform: scale(0.92); }
+}
 .miniatura.es-video::after {
     content: "▶"; position: absolute; inset: 0; display: grid; place-items: center;
     color: #fff; font-size: 26px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
@@ -257,10 +280,24 @@ label > input, label > select, label > textarea { margin-top: 6px; font-weight: 
     box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     z-index: 50;
     font-size: 14px;
+    transform: translateY(calc(100% + 24px));
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 200ms var(--ease-out), opacity 200ms ease, visibility 0s 200ms;
+}
+.barra-subida.visible {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    transition: transform 320ms var(--ease-drawer), opacity 200ms ease, visibility 0s;
 }
 .barra-texto { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
 .progreso { height: 8px; border-radius: 99px; background: color-mix(in srgb, var(--primario) 15%, transparent); overflow: hidden; }
-.progreso > div { height: 100%; width: 0; background: var(--primario); transition: width 0.3s; }
+.progreso > div {
+    height: 100%; background: var(--primario);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 250ms linear;
+}
 .errores-subida { margin: 8px 0 0; padding-left: 18px; color: #b03a2e; font-size: 13px; max-height: 90px; overflow: auto; }
 
 
@@ -273,7 +310,13 @@ label > input, label > select, label > textarea { margin-top: 6px; font-weight: 
     display: flex; align-items: center; justify-content: center;
     background: rgba(20, 20, 20, 0.95);
     z-index: 1000;
+    transition: opacity 200ms ease;
 }
+@starting-style { .visor { opacity: 0; } }
+.visor-medio { transition: transform 260ms var(--ease-out); }
+@starting-style { .visor .visor-medio { transform: scale(0.96); } }
+.visor-medio img { opacity: 0; transition: opacity 200ms ease; }
+.visor-medio img.cargada { opacity: 1; }
 .visor-medio { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 50px 10px; }
 .visor-medio img, .visor-medio video { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; }
 .visor-pie { position: absolute; bottom: 14px; left: 0; right: 0; margin: 0; text-align: center; color: #eee; font-size: 14px; }
@@ -281,7 +324,10 @@ label > input, label > select, label > textarea { margin-top: 6px; font-weight: 
     position: absolute; z-index: 2;
     width: 46px; height: 46px; border: none; border-radius: 50%;
     background: rgba(255,255,255,0.14); color: #fff; font-size: 26px; cursor: pointer;
+    transition: transform 160ms var(--ease-out), background-color 200ms ease;
 }
+.visor-cerrar:active { transform: scale(0.95); }
+.visor-nav:active { transform: translateY(-50%) scale(0.95); }
 .visor-cerrar { top: 14px; right: 14px; font-size: 20px; }
 .visor-nav { top: 50%; transform: translateY(-50%); }
 .visor-nav.anterior { left: 10px; }
@@ -295,9 +341,14 @@ label > input, label > select, label > textarea { margin-top: 6px; font-weight: 
 .pantalla { background: #000; color: #fff; overflow: hidden; cursor: none; }
 .pantalla .capa {
     position: fixed; inset: 0; width: 100%; height: 100%;
-    object-fit: contain; opacity: 0; transition: opacity 1.4s ease;
+    object-fit: contain;
+    opacity: 0; transform: scale(1.03); z-index: 0;
+    transition: opacity 900ms var(--ease-in-out), transform 0s 900ms;
 }
-.pantalla .capa.visible { opacity: 1; }
+.pantalla .capa.visible {
+    opacity: 1; transform: none; z-index: 1;
+    transition: opacity 1000ms var(--ease-out), transform 1800ms var(--ease-out);
+}
 .pantalla-qr {
     position: fixed; right: 2vw; bottom: 2vw; z-index: 5;
     width: clamp(110px, 13vw, 220px); padding: 10px 10px 6px;
@@ -331,6 +382,8 @@ label > input, label > select, label > textarea { margin-top: 6px; font-weight: 
 .partes li { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 
 .celda-anfitrion { position: relative; }
+.celda-anfitrion .alternar { transition: transform 160ms var(--ease-out); }
+.celda-anfitrion .alternar:active { transform: scale(0.95); }
 .celda-anfitrion.oculta .miniatura { opacity: 0.35; }
 .celda-anfitrion .alternar {
     position: absolute; left: 4px; bottom: 4px; z-index: 1;
@@ -395,3 +448,17 @@ label > input, label > select, label > textarea { margin-top: 6px; font-weight: 
 .texto-legal { max-width: 780px; margin: 0 auto; padding: 40px 0 80px; }
 .texto-legal h1 { font-size: 34px; font-weight: 600; }
 .texto-legal h2 { font-size: 22px; font-weight: 600; margin-top: 34px; }
+
+
+/* ================================================= */
+/* MENOS MOVIMIENTO                                  */
+/* Se quitan escalas y desplazamientos; quedan los fundidos que explican el cambio. */
+/* ================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .boton:active, .miniatura:active, .visor-cerrar:active, .celda-anfitrion .alternar:active,
+    .miniatura:hover img, .pantalla .capa, .barra-subida { transform: none; }
+    .visor-nav:active { transform: translateY(-50%); }
+    .visor-medio, .miniatura.nueva { transition: none; }
+    .progreso > div { transition: none; }
+}

@@ -194,6 +194,13 @@ function qrCanvas(texto, tam = 512) {
 // GALERÍA: miniatura, carga infinita y visor
 // ==========================================
 
+// Agrega .cargada cuando la imagen termina de bajar, para que entre con un fundido.
+function alCargar(img) {
+    const listo = () => img.classList.add("cargada");
+    if (img.complete) listo();
+    else { img.addEventListener("load", listo, { once: true }); img.addEventListener("error", listo, { once: true }); }
+}
+
 function crearMiniatura(f, alClic) {
     const boton = document.createElement("button");
     boton.type = "button";
@@ -203,6 +210,7 @@ function crearMiniatura(f, alClic) {
     img.loading = "lazy";
     img.decoding = "async";
     img.alt = f.nombre_invitado ? `Foto de ${f.nombre_invitado}` : "Foto del evento";
+    alCargar(img);
     boton.append(img);
     boton.addEventListener("click", alClic);
     return boton;
@@ -247,6 +255,7 @@ function crearVisor() {
             el = document.createElement("img");
             el.src = imagenGrande(f);
             el.alt = "Foto ampliada";
+            alCargar(el);
         }
         medio.replaceChildren(el);
         pie.textContent = f.nombre_invitado ? `📷 ${f.nombre_invitado}` : "";

@@ -92,7 +92,7 @@ function agregar(f, alInicio) {
     vistos.add(f.id);
     $("galeria").querySelector(".galeria-vacia")?.remove();
     const el = crearMiniatura(f, () => visor.abrir(fotos, fotos.indexOf(f)));
-    if (alInicio) { fotos.unshift(f); $("galeria").prepend(el); }
+    if (alInicio) { el.classList.add("nueva"); fotos.unshift(f); $("galeria").prepend(el); }
     else { fotos.push(f); $("galeria").append(el); }
 }
 
@@ -237,8 +237,8 @@ function pintarBarra() {
     const pendientes = validos - listos;
     const avance = validos ? cola.reduce((s, i) => s + (i.estado === "error" ? 0 : i.progreso), 0) / validos : 1;
 
-    $("barraSubida").hidden = false;
-    $("progreso").style.width = `${Math.round(avance * 100)}%`;
+    $("barraSubida").classList.add("visible");
+    $("progreso").style.transform = `scaleX(${avance})`;
     $("textoSubida").textContent = pendientes
         ? `Subiendo… ${listos} de ${validos} · puedes seguir mirando`
         : `✓ ${listos} archivo${listos === 1 ? "" : "s"} compartido${listos === 1 ? "" : "s"}` + (errores.length ? ` · ${errores.length} con error` : "");
@@ -250,7 +250,7 @@ function pintarBarra() {
     }));
 
     if (!pendientes && !errores.length) {
-        ocultarBarra = setTimeout(() => { $("barraSubida").hidden = true; cola.length = 0; }, 4000);
+        ocultarBarra = setTimeout(() => { $("barraSubida").classList.remove("visible"); cola.length = 0; }, 4000);
     }
 }
 
