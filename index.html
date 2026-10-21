@@ -1,121 +1,268 @@
 <!DOCTYPE html>
-<html lang="es" data-plantilla="minimalista">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Álbum QR para tu evento · Fotos de todos tus invitados en un solo lugar</title>
-    <meta name="description" content="Tus invitados escanean un QR y suben sus fotos y videos sin descargar apps. Para bodas, 15 años, cumpleaños, grados y eventos de empresa en Colombia.">
+    <title>pynex · todas las fotos de tu fiesta, en un solo álbum</title>
+    <meta name="description" content="Tus invitados escanean un QR y suben sus fotos y videos desde el celular, sin apps. Tú las descargas todas en calidad original. Bodas, 15 años, cumpleaños, grados y eventos de empresa en Colombia.">
+    <meta name="theme-color" content="#fdfbf9">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Corben:wght@400;700&family=Geist:wght@400;500;600&family=Gochi+Hand&display=swap">
+    <link rel="stylesheet" href="/ventas.css">
 </head>
-<body class="ventas">
+<body>
 
-<header class="hero">
-    <p class="nota marca" style="letter-spacing:3px; text-transform:uppercase; font-weight:600"></p>
-    <h1>Todas las fotos de tu evento,<br>en un solo álbum</h1>
-    <p>Tus invitados escanean un código QR y suben sus fotos y videos desde el celular. Sin apps, sin registrarse. Tú las descargas todas en calidad original.</p>
-    <a class="boton boton-grande whatsapp" target="_blank" style="max-width:320px">💬 Cotiza por WhatsApp</a>
-    <p class="nota" style="margin-top:14px">Bodas · 15 años · Cumpleaños · Grados · Eventos de empresa</p>
+<!-- Íconos: Lucide (ISC) y logo de WhatsApp de Simple Icons (CC0) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-calendar-clock" viewBox="0 0 24 24"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h5"/><path d="M17.5 17.5 16 16.3V14"/><circle cx="16" cy="16" r="6"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol>
+    <symbol id="i-folder-archive" viewBox="0 0 24 24"><circle cx="15" cy="19" r="2"/><path d="M20.9 19.8A2 2 0 0 0 22 18V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h5.1"/><path d="M15 11v-1"/><path d="M15 17v-2"/></symbol>
+    <symbol id="i-images" viewBox="0 0 24 24"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></symbol>
+    <symbol id="i-qr-code" viewBox="0 0 24 24"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></symbol>
+    <symbol id="i-tv" viewBox="0 0 24 24"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></symbol>
+</svg>
+
+<header class="cabecera">
+    <a href="/" class="logo" aria-label="pynex, inicio">pynex</a>
+    <a class="pildora pildora-chica whatsapp" target="_blank" rel="noopener">
+        <svg class="icono relleno" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+        cotizar
+    </a>
 </header>
 
-<main class="contenedor">
+<main>
 
-    <section class="seccion">
-        <h2>Cómo funciona</h2>
-        <div class="rejilla">
-            <div class="paso">
-                <span class="num">1</span>
-                <h3>Creamos tu álbum</h3>
-                <p class="nota">Con el nombre, colores y estilo de tu evento. Te entregamos tarjetas QR listas para imprimir.</p>
+    <!-- ===== PORTADA: la mesa del álbum ===== -->
+    <section class="portada" aria-labelledby="titulo">
+        <div class="portada-texto">
+            <h1 id="titulo">todas las fotos de tu fiesta, en <span class="subrayado">un solo álbum</span></h1>
+            <p class="bajada">Tus invitados escanean un QR y suben sus fotos y videos desde el celular, sin apps ni registros. Tú las descargas todas, en calidad original.</p>
+            <div class="acciones">
+                <a class="pildora" href="/e/?s=demo-boda">
+                    <svg class="icono" aria-hidden="true"><use href="#i-images"/></svg>
+                    ver un álbum de ejemplo
+                </a>
+                <a class="pildora whatsapp" target="_blank" rel="noopener">
+                    <svg class="icono relleno" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+                    cotizar por whatsapp
+                </a>
             </div>
-            <div class="paso">
-                <span class="num">2</span>
-                <h3>Tus invitados suben</h3>
-                <p class="nota">Escanean el QR, escriben su nombre y comparten fotos y videos. Opcional: se ven en vivo en una pantalla.</p>
-            </div>
-            <div class="paso">
-                <span class="num">3</span>
-                <h3>Descargas todo</h3>
-                <p class="nota">Desde tu panel privado bajas todo en ZIP, en calidad original, antes de la fecha límite.</p>
-            </div>
+            <p class="nota-precio" id="desde">Pago único por evento, sin mensualidades.</p>
+            <p class="tipos">bodas · 15 años · cumpleaños · grados · eventos de empresa</p>
+
+            <!-- stickers de fiesta (decorativos) -->
+            <svg class="sticker sticker-corazon" viewBox="0 0 48 44" aria-hidden="true"><path d="M24 41S3 28.5 3 14.5A10.5 10.5 0 0 1 24 9a10.5 10.5 0 0 1 21 5.5C45 28.5 24 41 24 41Z" fill="#ff66cf" stroke="#171717" stroke-width="2.5" stroke-linejoin="round"/><path d="M12 13.5a5 5 0 0 1 5-4" fill="none" stroke="#fdfbf9" stroke-width="2.5" stroke-linecap="round"/></svg>
+            <svg class="sticker sticker-destello" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3c2.4 11 9 17.6 21 21-12 3.4-18.6 10-21 21-2.4-11-9-17.6-21-21 12-3.4 18.6-10 21-21Z" fill="#3b82f6" stroke="#171717" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        </div>
+
+        <div class="mesa" id="mesa">
+            <figure class="foto" style="--x:0%;--y:20%;--w:27%;--r:-6deg;--mx:0%;--my:6%;--mw:60%;--mr:-5deg" tabindex="0">
+                <img src="https://images.unsplash.com/photo-1758810409996-583f3bad7d51?auto=format&fit=crop&w=640&h=480&q=70" alt="Pareja bailando en la pista de una boda" width="640" height="480" fetchpriority="high">
+                <figcaption><span>subida por</span> andrés</figcaption>
+            </figure>
+            <figure class="foto vertical" style="--x:23%;--y:0%;--w:16%;--r:4deg;--mx:54%;--my:0%;--mw:42%;--mr:5deg" tabindex="0">
+                <img src="https://images.unsplash.com/photo-1763959949927-b86ed20b3290?auto=format&fit=crop&w=480&h=640&q=70" alt="Quinceañera con tiara y vestido azul" width="480" height="640" fetchpriority="high">
+                <figcaption><span>subida por</span> mariana</figcaption>
+            </figure>
+            <figure class="foto vertical" style="--x:37%;--y:18%;--w:17%;--r:-3deg;--mx:4%;--my:55%;--mw:42%;--mr:3deg" tabindex="0">
+                <img src="https://images.unsplash.com/photo-1699730185428-d11054059c7f?auto=format&fit=crop&w=480&h=640&q=70" alt="Amigos celebrando bajo una lluvia de confeti" width="480" height="640">
+                <figcaption><span>subida por</span> camila</figcaption>
+            </figure>
+            <figure class="foto vertical" id="foto-tia" style="--x:53%;--y:4%;--yd:-24%;--w:16%;--r:5deg;--mx:50%;--my:51%;--mw:44%;--mr:-4deg" tabindex="0">
+                <img src="https://images.unsplash.com/photo-1785744563469-9c1223bf2ebb?auto=format&fit=crop&w=480&h=640&q=70" alt="Invitados brindando en un arco sobre los novios" width="480" height="640">
+                <figcaption><span>subida por</span> tía marta</figcaption>
+            </figure>
+            <figure class="foto solo-ancho" style="--x:67%;--y:26%;--yd:-20%;--w:26%;--r:-3deg" tabindex="0">
+                <img src="https://images.unsplash.com/photo-1784202388318-a2caaeffe4b7?auto=format&fit=crop&w=640&h=480&q=70" alt="Novia bailando de noche con sus damas e invitados" width="640" height="480" loading="lazy">
+                <figcaption><span>subida por</span> julián</figcaption>
+            </figure>
+            <figure class="foto solo-ancho" style="--x:80%;--y:0%;--yd:-50%;--w:20%;--r:7deg" tabindex="0">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=640&h=480&q=70" alt="Novios soltando globos frente a sus invitados" width="640" height="480" loading="lazy">
+                <figcaption><span>subida por</span> sofía</figcaption>
+            </figure>
+
+            <p class="nota-mano nota-tia" aria-hidden="true">
+                cada foto dice quién la subió
+                <svg class="flecha" viewBox="0 0 120 70"><path d="M8 8c38 2 70 12 92 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M86 52l14 4 2-15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </p>
         </div>
     </section>
 
-    <section class="seccion">
-        <h2>Paquetes</h2>
-        <p class="nota centro" style="margin-top:-14px">Pago único por evento. Sin mensualidades.</p>
-        <div class="rejilla" id="paquetes"><p class="nota">Cargando precios…</p></div>
+
+    <!-- ===== CÓMO FUNCIONA ===== -->
+    <section class="seccion como" aria-labelledby="t-como">
+        <h2 id="t-como">así de fácil</h2>
+
+        <ol class="pasos">
+            <li class="paso">
+                <div class="objeto" aria-hidden="true"><div class="tarjeta-qr">
+                    <p class="tq-nombre">ana &amp; luis</p>
+                    <span class="tq-qr" id="qrDemo"></span>
+                    <p class="tq-texto">escanea y comparte tus fotos</p>
+                </div></div>
+                <div class="paso-texto">
+                    <h3>creamos tu álbum</h3>
+                    <p>Con el nombre, los colores y el estilo de tu evento. Te entregamos tarjetas QR listas para imprimir y poner en cada mesa.</p>
+                    <p class="nota-mano">pruébalo: escanéalo con tu celular</p>
+                </div>
+            </li>
+
+            <li class="paso">
+                <div class="objeto" aria-hidden="true"><div class="celular">
+                    <div class="cel-pantalla">
+                        <p class="cel-saludo">hola, camila</p>
+                        <span class="cel-boton"><svg class="icono"><use href="#i-camera"/></svg> subir fotos</span>
+                        <div class="cel-barra"><span>subiendo 3 de 8</span><i></i></div>
+                        <div class="cel-fotos">
+                            <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=160&h=160&q=60" alt="" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1645730826845-cd2ddec9984f?auto=format&fit=crop&w=160&h=160&q=60" alt="" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1763573677112-ab362f9fa2ca?auto=format&fit=crop&w=160&h=160&q=60" alt="" loading="lazy">
+                        </div>
+                    </div>
+                </div></div>
+                <div class="paso-texto">
+                    <h3>tus invitados suben</h3>
+                    <p>Escanean, escriben su nombre una sola vez y comparten fotos y videos. Sin descargar apps ni crear cuentas. Si quieres, todo sale en vivo en una pantalla.</p>
+                </div>
+            </li>
+
+            <li class="paso">
+                <div class="objeto" aria-hidden="true">
+                    <div class="arch-fotos">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=200&h=200&q=60" alt="" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1763959945078-c4f5daa3d766?auto=format&fit=crop&w=200&h=200&q=60" alt="" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1758810409996-583f3bad7d51?auto=format&fit=crop&w=200&h=200&q=60" alt="" loading="lazy">
+                    </div>
+                    <span class="arch-chip"><svg class="icono"><use href="#i-folder-archive"/></svg> ana-y-luis-parte-1.zip</span>
+                </div>
+                <div class="paso-texto">
+                    <h3>tú descargas todo</h3>
+                    <p>Desde tu panel privado ves todas las fotos, ocultas las que no quieras mostrar y bajas todo en ZIP, en calidad original.</p>
+                </div>
+            </li>
+        </ol>
+
+        <p class="plazo">
+            Tu álbum es temporal: tienes un plazo para descargar y después las fotos se borran por completo.
+            <strong>Nadie más se queda con ellas.</strong>
+        </p>
     </section>
 
-    <section class="seccion">
-        <h2>Míralo funcionando</h2>
-        <div class="rejilla">
-            <a class="demo" href="/e/?s=demo-boda">
-                <img src="https://res.cloudinary.com/demo/image/upload/c_fill,w_600,h_450,q_auto,f_auto/couple.jpg" alt="Demo de boda" loading="lazy">
-                <div><strong>Boda</strong><br><span class="nota">Plantilla boda elegante</span></div>
+
+    <!-- ===== PAQUETES ===== -->
+    <section class="seccion paquetes" aria-labelledby="t-paquetes">
+        <h2 id="t-paquetes">elige tu paquete</h2>
+        <p class="seccion-bajada">Un solo pago por evento. Las fotos y los videos son tuyos.</p>
+        <div class="lista-paquetes" id="paquetes">
+            <p class="cargando">Cargando precios…</p>
+        </div>
+    </section>
+
+
+    <!-- ===== DEMOS ===== -->
+    <section class="seccion demos" aria-labelledby="t-demos">
+        <h2 id="t-demos">míralo funcionando</h2>
+        <p class="seccion-bajada">Álbumes de ejemplo, abiertos como los ven tus invitados. Puedes subir una foto de prueba.</p>
+        <div class="lista-demos">
+            <a class="demo" href="/e/?s=demo-boda" style="--r:-2deg">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&h=450&q=70" alt="Novios besándose" width="600" height="450" loading="lazy">
+                <span class="demo-etiqueta"><b>boda</b> ana &amp; luis</span>
             </a>
-            <a class="demo" href="/e/?s=demo-quince">
-                <img src="https://res.cloudinary.com/demo/image/upload/c_fill,w_600,h_450,q_auto,f_auto/samples/smile.jpg" alt="Demo de 15 años" loading="lazy">
-                <div><strong>15 años</strong><br><span class="nota">Plantilla quince años</span></div>
+            <a class="demo" href="/e/?s=demo-quince" style="--r:1.5deg">
+                <img src="https://images.unsplash.com/photo-1763959945078-c4f5daa3d766?auto=format&fit=crop&w=600&h=450&q=70" alt="Quinceañera con vestido azul claro y ramo de flores" width="600" height="450" loading="lazy">
+                <span class="demo-etiqueta"><b>15 años</b> los 15 de valentina</span>
             </a>
-            <a class="demo" href="/e/?s=demo-cumple">
-                <img src="https://res.cloudinary.com/demo/image/upload/c_fill,w_600,h_450,q_auto,f_auto/samples/balloons.jpg" alt="Demo de cumpleaños" loading="lazy">
-                <div><strong>Cumpleaños</strong><br><span class="nota">Plantilla infantil</span></div>
+            <a class="demo" href="/e/?s=demo-cumple" style="--r:-1deg">
+                <img src="https://images.unsplash.com/photo-1645730826845-cd2ddec9984f?auto=format&fit=crop&w=600&h=450&q=70" alt="Amigos bailando en una fiesta de cumpleaños" width="600" height="450" loading="lazy">
+                <span class="demo-etiqueta"><b>cumpleaños</b> tomás cumple 6</span>
             </a>
-            <a class="demo" href="/e/?s=demo-empresa">
-                <img src="https://res.cloudinary.com/demo/image/upload/c_fill,w_600,h_450,q_auto,f_auto/samples/people/kitchen-bar.jpg" alt="Demo de evento de empresa" loading="lazy">
-                <div><strong>Empresa</strong><br><span class="nota">Plantilla corporativa</span></div>
+            <a class="demo" href="/e/?s=demo-empresa" style="--r:2deg">
+                <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=600&h=450&q=70" alt="Equipo brindando en una celebración" width="600" height="450" loading="lazy">
+                <span class="demo-etiqueta"><b>empresa</b> fiesta de fin de año</span>
             </a>
         </div>
-        <p class="centro"><a class="boton boton-sec" href="/pantalla/?s=demo-boda" target="_blank">📺 Ver la pantalla en vivo</a></p>
+
+        <a class="pantalla-vivo" href="/pantalla/?s=demo-boda" target="_blank" rel="noopener">
+            <span class="tv" aria-hidden="true">
+                <img src="https://images.unsplash.com/photo-1784202388318-a2caaeffe4b7?auto=format&fit=crop&w=640&h=360&q=65" alt="" loading="lazy">
+                <span class="tv-qr" id="qrTv"></span>
+            </span>
+            <span class="pv-texto">
+                <span class="pv-titulo"><svg class="icono" aria-hidden="true"><use href="#i-tv"/></svg> pantalla en vivo</span>
+                Las fotos aparecen en un TV o proyector apenas tus invitados las suben.
+                <span class="pv-enlace">abrir la pantalla de ejemplo <svg class="icono" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+            </span>
+        </a>
     </section>
 
-    <section class="seccion">
-        <h2>Preguntas frecuentes</h2>
-        <div class="rejilla">
-            <div class="paso"><h3>¿Los invitados instalan algo?</h3><p class="nota">No. Funciona en el navegador de cualquier celular.</p></div>
-            <div class="paso"><h3>¿Por cuánto tiempo están las fotos?</h3><p class="nota">Según el paquete, de 15 a 45 días. Después se borran definitivamente, así que descárgalas a tiempo.</p></div>
-            <div class="paso"><h3>¿Quién ve las fotos?</h3><p class="nota">Solo quien tenga el enlace o el QR de tu evento. Tú puedes ocultar las que no quieras mostrar.</p></div>
+
+    <!-- ===== PREGUNTAS ===== -->
+    <section class="seccion preguntas" aria-labelledby="t-preguntas">
+        <h2 id="t-preguntas">lo que siempre nos preguntan</h2>
+        <div class="lista-preguntas">
+            <details>
+                <summary>¿Mis invitados tienen que instalar algo? <svg class="icono" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+                <p>No. Escanean el QR con la cámara del celular y se abre el álbum en el navegador. Escriben su nombre una sola vez y listo.</p>
+            </details>
+            <details>
+                <summary>¿Por cuánto tiempo están las fotos? <svg class="icono" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+                <p>Según el paquete, tienes de 15 a 45 días para descargarlas. Después se borran por completo de nuestros servidores, así que descárgalas a tiempo: te avisamos antes por WhatsApp.</p>
+            </details>
+            <details>
+                <summary>¿Quién puede ver las fotos? <svg class="icono" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+                <p>Solo quien tenga el QR o el enlace de tu evento. Desde tu panel privado puedes ocultar cualquier foto para que nadie más la vea.</p>
+            </details>
+            <details>
+                <summary>¿Se pueden subir videos? <svg class="icono" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+                <p>Sí. En el paquete Esencial, videos de hasta 30 segundos (máximo 10 por evento); en los demás, de hasta 60 segundos.</p>
+            </details>
+            <details>
+                <summary>¿Usan mis fotos para publicidad? <svg class="icono" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+                <p>No. Las fotos son tuyas y no las usamos para nada sin tu autorización por escrito. Lo explicamos en los <a href="/terminos.html">términos y tratamiento de datos</a>.</p>
+            </details>
         </div>
     </section>
 
 </main>
 
-<footer class="pie">
-    <span class="marca"></span> · <a href="/terminos.html">Términos y tratamiento de datos</a>
+
+<!-- ===== CIERRE: franja naranja ===== -->
+<footer class="cierre">
+    <svg class="sticker sticker-copa" viewBox="0 0 48 56" aria-hidden="true"><path d="M12 4h24l-2 18a10 10 0 0 1-20 0L12 4Z" fill="#fdfbf9" stroke="#171717" stroke-width="2.5" stroke-linejoin="round"/><path d="M13.5 13h21" stroke="#171717" stroke-width="2.5"/><path d="M24 32v14M15 52h18" stroke="#171717" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="18" r="1.8" fill="#22c55e"/><circle cx="27" cy="22" r="1.8" fill="#3b82f6"/></svg>
+    <div class="cierre-dentro">
+        <h2>hablemos de tu fiesta</h2>
+        <p>Cuéntanos la fecha y el tipo de evento, y te armamos tu álbum.</p>
+        <div class="acciones">
+            <a class="pildora pildora-papel whatsapp" target="_blank" rel="noopener">
+                <svg class="icono relleno" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+                escribir por whatsapp
+            </a>
+            <a class="pildora pildora-papel" href="/e/?s=demo-quince">
+                <svg class="icono" aria-hidden="true"><use href="#i-images"/></svg>
+                ver otro ejemplo
+            </a>
+        </div>
+        <div class="pie">
+            <span class="logo">pynex</span>
+            <span>Hecho en Fusagasugá, Cundinamarca</span>
+            <a href="/terminos.html">Términos y datos personales</a>
+            <span>Fotos de ejemplo: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></span>
+        </div>
+    </div>
 </footer>
 
-<a class="whatsapp-flotante whatsapp" target="_blank" aria-label="Escríbenos por WhatsApp">💬 WhatsApp</a>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script src="/config.js"></script>
 <script src="/comun.js"></script>
-<script>
-    const wa = (texto) => `https://wa.me/${WHATSAPP_NEGOCIO}?text=${encodeURIComponent(texto)}`;
-    document.querySelectorAll(".whatsapp").forEach((a) => (a.href = wa("Hola, quiero información del álbum QR para mi evento.")));
-
-    sb.from("paquetes").select("*").order("precio").then(({ data }) => {
-        if (!data?.length) return;
-        document.getElementById("paquetes").replaceChildren(...data.map((p) => {
-            const caja = document.createElement("div");
-            caja.className = "paquete" + (p.id === "boda" ? " destacado" : "");
-            const ventajas = [
-                `Subidas hasta ${p.dias_subida} día${p.dias_subida === 1 ? "" : "s"} después del evento`,
-                `${p.dias_descarga} días para descargar todo`,
-                `Videos de hasta ${p.max_video_seg} s` + (p.max_videos ? ` (máx. ${p.max_videos})` : ""),
-                p.pantalla_vivo ? "Pantalla en vivo para TV o proyector" : null,
-                "Tarjetas QR para imprimir",
-                "Descarga en ZIP, calidad original",
-            ].filter(Boolean);
-            caja.innerHTML = `<h3></h3><p class="precio"></p><ul></ul><a class="boton" target="_blank">Lo quiero</a>`;
-            caja.querySelector("h3").textContent = p.nombre;
-            caja.querySelector(".precio").textContent = `$${p.precio.toLocaleString("es-CO")}`;
-            caja.querySelector("ul").append(...ventajas.map((v) => Object.assign(document.createElement("li"), { textContent: v })));
-            caja.querySelector("a").href = wa(`Hola, me interesa el paquete ${p.nombre} para mi evento.`);
-            return caja;
-        }));
-    });
-</script>
+<script src="/ventas.js"></script>
 </body>
 </html>

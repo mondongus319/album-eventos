@@ -415,33 +415,6 @@ label > input, label > select, label > textarea { margin-top: 6px; font-weight: 
 
 
 /* ================================================= */
-/* PÁGINA DE VENTAS                                  */
-/* ================================================= */
-
-.ventas { --primario: #7a4cff; --secundario: #ff7aa2; --fondo: #fbfaff; }
-.hero { text-align: center; padding: 70px 20px 50px; }
-.hero h1 { font-size: clamp(34px, 8vw, 60px); font-weight: 600; margin: 10px 0; }
-.hero p { max-width: 620px; margin: 0 auto 26px; font-size: 18px; color: var(--suave); }
-.seccion { padding: 40px 0; }
-.seccion > h2 { text-align: center; font-size: 34px; font-weight: 600; margin: 0 0 26px; }
-.rejilla { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.paso, .paquete, .demo { background: var(--tarjeta); border-radius: 18px; padding: 24px; box-shadow: 0 8px 30px rgba(60, 40, 120, 0.08); }
-.paso .num { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--primario); color: #fff; font-weight: 700; }
-.paquete h3 { font-family: var(--f-cuerpo); font-weight: 600; margin: 0; }
-.paquete .precio { font-size: 30px; font-weight: 700; color: var(--texto); margin: 6px 0 12px; }
-.paquete ul { padding-left: 18px; margin: 0 0 18px; color: var(--suave); }
-.paquete.destacado { box-shadow: 0 0 0 3px var(--primario), 0 8px 30px rgba(60, 40, 120, 0.15); }
-.demo { padding: 0; overflow: hidden; text-decoration: none; color: var(--texto); }
-.demo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
-.demo div { padding: 14px 18px; }
-.whatsapp-flotante {
-    position: fixed; right: 16px; bottom: 16px; z-index: 20;
-    background: #25d366; color: #fff; border-radius: 999px; padding: 14px 20px;
-    font-weight: 700; text-decoration: none; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
-
-/* ================================================= */
 /* TÉRMINOS                                          */
 /* ================================================= */
 
