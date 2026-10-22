@@ -61,7 +61,7 @@ const guardado = (() => {
 // ==========================================
 
 const PLANTILLAS = {
-    "boda-elegante": { nombre: "Boda elegante", icono: "heart", fuentes: "family=Allura&family=DM+Sans:wght@400;500;700" },
+    "boda-elegante": { nombre: "Boda · La hora loca", icono: "heart", fuentes: "family=Neonderthaw&family=Tilt+Neon&family=Figtree:wght@400;500;700&family=Share+Tech+Mono" },
     "quince-anos":   { nombre: "Quince años",   icono: "crown", fuentes: "family=Great+Vibes&family=Poppins:wght@400;500;600" },
     "infantil":      { nombre: "Infantil",      icono: "party-popper", fuentes: "family=Fredoka:wght@400;500;600;700" },
     "corporativa":   { nombre: "Corporativa",   icono: "building-2", fuentes: "family=Montserrat:wght@600;800&family=Inter:wght@400;500;600" },
@@ -92,7 +92,7 @@ function aplicarPlantilla(ev) {
 // El cliente puede elegir cualquier color. Calculamos:
 // --sobre-primario: blanco o casi negro, lo que más contraste dé sobre el color (botones).
 // --primario-texto: el color oscurecido hasta leerse (4,5:1) sobre el fondo y las tarjetas.
-// shortcut: asume plantillas de fondo claro; si llega una plantilla oscura, aclarar en vez de oscurecer.
+// En plantillas de fondo oscuro (la hora loca) el color se aclara en vez de oscurecerse.
 const rgb = (texto) => {
     const m = /^#([0-9a-f]{6})$/i.exec((texto || "").trim());
     return m && [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16));
@@ -114,8 +114,11 @@ function ajustarContraste() {
     const fondos = ["--fondo", "--tarjeta"].map((v) => rgb(estilo.getPropertyValue(v))).filter(Boolean);
     const blanco = [255, 255, 255], tinta = [26, 26, 26];
     raiz.style.setProperty("--sobre-primario", contraste(primario, blanco) >= contraste(primario, tinta) ? "#ffffff" : "#1a1a1a");
+    const oscuro = fondos.length && luz(fondos[0]) < 0.2;
     let texto = primario;
-    for (let i = 0; i < 25 && fondos.some((f) => contraste(texto, f) < 4.5); i++) texto = texto.map((v) => v * 0.9);
+    for (let i = 0; i < 25 && fondos.some((f) => contraste(texto, f) < 4.5); i++) {
+        texto = oscuro ? texto.map((v) => v + (255 - v) * 0.12) : texto.map((v) => v * 0.9);
+    }
     raiz.style.setProperty("--primario-texto", aHex(texto));
 }
 
@@ -292,12 +295,23 @@ function alCargar(img) {
     else { img.addEventListener("load", listo, { once: true }); img.addEventListener("error", listo, { once: true }); }
 }
 
-function crearMiniatura(f, alClic) {
+// opciones.forma: respeta la proporción real de la foto (galería tipo álbum) y muestra quién la subió.
+function crearMiniatura(f, alClic, opciones = {}) {
     const boton = document.createElement("button");
     boton.type = "button";
-    boton.className = "miniatura" + (f.tipo === "video" ? " es-video" : "");
+    boton.className = "miniatura" + (f.tipo === "video" ? " es-video" : "") + (opciones.forma ? " con-forma" : "");
     const img = document.createElement("img");
-    img.src = miniatura(f);
+    if (opciones.forma) {
+        const fijar = (a, b) => boton.style.setProperty("--a", Math.min(2.2, Math.max(0.5, a / b)).toFixed(3));
+        if (f.ancho && f.alto) fijar(f.ancho, f.alto);
+        // fotos subidas antes de guardar medidas: la forma sale de la imagen al cargar (c_scale conserva la proporción)
+        else img.addEventListener("load", () => fijar(img.naturalWidth, img.naturalHeight), { once: true });
+        img.src = f.tipo === "video"
+            ? transformar(f.url, "so_0,c_scale,h_420,q_auto").replace(/\.\w+$/, ".jpg")
+            : transformar(f.url, "c_scale,h_420,q_auto,f_auto");
+    } else {
+        img.src = miniatura(f);
+    }
     img.loading = "lazy";
     img.decoding = "async";
     img.alt = f.nombre_invitado ? `Foto de ${f.nombre_invitado}` : "Foto del evento";
@@ -305,6 +319,19 @@ function crearMiniatura(f, alClic) {
     alCargar(img);
     boton.append(img);
     if (f.tipo === "video") boton.insertAdjacentHTML("beforeend", `<span class="marca-video">${icono("play")}</span>`);
+    if (opciones.forma && f.creado_en) {
+        const hora = document.createElement("span");
+        hora.className = "hora";
+        hora.setAttribute("aria-hidden", "true");
+        hora.textContent = new Date(f.creado_en).toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Bogota" });
+        boton.append(hora);
+    }
+    if (opciones.forma && f.nombre_invitado) {
+        const quien = document.createElement("span");
+        quien.className = "quien";
+        quien.textContent = f.nombre_invitado;
+        boton.append(quien);
+    }
     boton.addEventListener("click", alClic);
     return boton;
 }

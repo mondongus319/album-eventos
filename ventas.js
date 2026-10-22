@@ -45,10 +45,10 @@ sb.from("paquetes").select("*").order("precio").then(({ data, error }) => {
         tarjeta.className = "paquete";
         tarjeta.innerHTML = `
             <h3></h3>
-            <p class="precio">${pesos(p.precio)}<span>pago único</span></p>
+            <p class="precio">${pesos(p.precio)}<span>Pago único</span></p>
             <ul>${items.map(([i, texto, no]) => `<li${no ? ' class="no"' : ""}>${iconoSprite(i)}<span></span></li>`).join("")}</ul>
-            <a class="pildora" target="_blank" rel="noopener">lo quiero ${iconoSprite("arrow-right")}</a>`;
-        tarjeta.querySelector("h3").textContent = p.nombre.toLowerCase();
+            <a class="pildora" target="_blank" rel="noopener">Lo quiero ${iconoSprite("arrow-right")}</a>`;
+        tarjeta.querySelector("h3").textContent = p.nombre;
         tarjeta.querySelectorAll("li span").forEach((s, i) => (s.textContent = items[i][1]));
         tarjeta.querySelector("a").href = wa(`Hola, me interesa el paquete ${p.nombre} para mi evento.`);
         return tarjeta;

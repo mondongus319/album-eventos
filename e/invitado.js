@@ -63,28 +63,42 @@ $("reintentarCarga").addEventListener("click", iniciar);
 
 function mostrarZonaSubida() {
     const nombre = guardado.leer("nombreInvitado");
-    $("zonaNombre").hidden = !!nombre;
-    $("zonaSubir").hidden = !nombre;
+    $("zonaSubir").hidden = false;
+    $("accionFija").hidden = false;
+    $("saludo").hidden = !nombre;
     $("nombreVisible").textContent = nombre || "";
     $("notaVideos").textContent = ev.max_videos
         ? `Videos de máximo ${ev.max_video_seg} s · quedan ${Math.max(0, ev.max_videos - ev.videos_subidos)} de ${ev.max_videos}.`
         : `También puedes subir videos de máximo ${ev.max_video_seg} segundos.`;
 }
 
-$("formNombre").addEventListener("submit", (e) => {
+let abrirSelectorAlGuardar = false;
+
+function pedirNombre(abrirSelector) {
+    abrirSelectorAlGuardar = abrirSelector;
+    $("inputNombre").value = guardado.leer("nombreInvitado") || "";
+    $("dialogoNombre").showModal();
+    $("inputNombre").focus();
+}
+
+// Sin nombre todavía: el botón abre la pregunta en vez del selector de archivos.
+$("botonSubir").addEventListener("click", (e) => {
+    if (guardado.leer("nombreInvitado")) return;
     e.preventDefault();
-    const nombre = $("inputNombre").value.trim().slice(0, 60);
-    if (!nombre) return;
-    guardado.escribir("nombreInvitado", nombre);
-    mostrarZonaSubida();
+    pedirNombre(true);
 });
 
-$("cambiarNombre").addEventListener("click", () => {
-    $("inputNombre").value = guardado.leer("nombreInvitado") || "";
-    guardado.borrar("nombreInvitado");
+$("formNombre").addEventListener("submit", (e) => {
+    const nombre = $("inputNombre").value.trim().slice(0, 60);
+    if (!nombre) { e.preventDefault(); $("inputNombre").focus(); return; }
+    guardado.escribir("nombreInvitado", nombre);
     mostrarZonaSubida();
-    $("inputNombre").focus();
+    // El envío es un gesto del usuario: el navegador deja abrir el selector desde aquí.
+    if (abrirSelectorAlGuardar) $("archivos").click();
 });
+
+$("cancelarNombre").addEventListener("click", () => $("dialogoNombre").close());
+$("cambiarNombre").addEventListener("click", () => pedirNombre(false));
 
 
 // ==========================================
@@ -96,13 +110,46 @@ async function actualizarContador() {
     $("contador").textContent = count ? `${count} recuerdo${count === 1 ? "" : "s"}` : "";
 }
 
+// Momentos de la noche: un separador por hora (hora de Colombia), con el día si no es el del evento.
+function momento(iso) {
+    const d = new Date(iso);
+    const dia = d.toLocaleDateString("en-CA", { timeZone: "America/Bogota" });
+    const hora = d.toLocaleTimeString("es-CO", { hour: "numeric", hour12: true, timeZone: "America/Bogota" });
+    const nombreDia = d.toLocaleDateString("es-CO", { weekday: "short", day: "numeric", month: "short", timeZone: "America/Bogota" });
+    const texto = dia === ev.fecha_evento ? hora : `${nombreDia} · ${hora}`;
+    return { clave: dia + hora, texto: texto.charAt(0).toUpperCase() + texto.slice(1) };
+}
+
+function separador(m) {
+    const h = document.createElement("h3");
+    h.className = "momento";
+    h.dataset.momento = m.clave;
+    h.textContent = m.texto;
+    return h;
+}
+
+let ultimoMomento = null;
+
 function agregar(f, alInicio) {
     if (vistos.has(f.id)) return;
     vistos.add(f.id);
-    $("galeria").querySelector(".galeria-vacia")?.remove();
-    const el = crearMiniatura(f, () => visor.abrir(fotos, fotos.indexOf(f)));
-    if (alInicio) { el.classList.add("nueva"); fotos.unshift(f); $("galeria").prepend(el); }
-    else { fotos.push(f); $("galeria").append(el); }
+    const galeria = $("galeria");
+    galeria.querySelector(".galeria-vacia")?.remove();
+    const el = crearMiniatura(f, () => visor.abrir(fotos, fotos.indexOf(f)), { forma: true });
+    const m = momento(f.creado_en || new Date().toISOString());
+
+    if (alInicio) {
+        el.classList.add("nueva", "tuya");
+        fotos.unshift(f);
+        const primero = galeria.querySelector(".momento");
+        if (primero?.dataset.momento === m.clave) primero.after(el);
+        else galeria.prepend(separador(m), el);
+        ultimoMomento ??= m.clave;
+    } else {
+        fotos.push(f);
+        if (m.clave !== ultimoMomento) { galeria.append(separador(m)); ultimoMomento = m.clave; }
+        galeria.append(el);
+    }
 }
 
 // Devuelve true si puede haber más páginas.
@@ -110,7 +157,7 @@ async function cargarMas() {
     if (cargando || finGaleria || !ev) return false;
     cargando = true;
     let consulta = sb.from("fotos")
-        .select("id,url,tipo,nombre_invitado,creado_en")
+        .select("id,url,tipo,nombre_invitado,creado_en,ancho,alto")
         .eq("evento_id", ev.id)
         .order("creado_en", { ascending: false })
         .limit(POR_PAGINA);
@@ -233,7 +280,8 @@ async function procesar(item) {
         item.estado = "listo";
         item.progreso = 1;
         if (fila.tipo === "video") { ev.videos_subidos++; mostrarZonaSubida(); }
-        agregar({ id: r.public_id, url: fila.url, tipo: fila.tipo, nombre_invitado: fila.nombre_invitado }, true);
+        agregar({ id: r.public_id, url: fila.url, tipo: fila.tipo, nombre_invitado: fila.nombre_invitado,
+            ancho: fila.ancho, alto: fila.alto, creado_en: new Date().toISOString() }, true);
         actualizarContador();
     } catch (e) {
         Object.assign(item, { estado: "error", mensaje: e.message, final: !!e.final });
@@ -249,7 +297,7 @@ async function revisarSiCerro() {
     const { data } = await sb.rpc("evento_publico", { p_slug: ev.slug });
     if (data && !data.subidas_abiertas) {
         ev.subidas_abiertas = false;
-        $("zonaSubir").hidden = $("zonaNombre").hidden = true;
+        $("zonaSubir").hidden = $("accionFija").hidden = true;
         $("zonaCerrada").hidden = false;
     }
 }
@@ -272,7 +320,8 @@ function pintarBarra() {
     const avance = validos ? cola.reduce((s, i) => s + (i.estado === "error" ? 0 : i.progreso), 0) / validos : 1;
 
     $("barraSubida").classList.add("visible");
-    $("progreso").style.transform = `scaleX(${avance})`;
+    $("progreso").style.transform = `scaleX(${pendientes ? avance : 0})`;
+    $("textoBoton").textContent = pendientes ? `Subiendo ${listos} de ${validos}…` : "Subir más fotos";
     $("textoSubida").textContent = pendientes
         ? (navigator.onLine
             ? `Subiendo… ${listos} de ${validos} · puedes seguir mirando`

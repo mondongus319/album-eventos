@@ -20,25 +20,9 @@
 
     <main class="contenedor">
 
-        <section class="tarjeta centro" id="zonaNombre" hidden>
-            <h2>¿Cómo te llamas?</h2>
-            <p class="nota">Así los anfitriones sabrán quién compartió cada foto.</p>
-            <form id="formNombre" class="form-fila">
-                <label for="inputNombre" class="solo-lectores">Tu nombre</label>
-                <input id="inputNombre" maxlength="60" required placeholder="Tu nombre" autocomplete="given-name">
-                <button class="boton">Continuar</button>
-            </form>
-        </section>
-
-        <section class="tarjeta centro" id="zonaSubir" hidden>
-            <p>Hola, <strong id="nombreVisible"></strong> · <button type="button" id="cambiarNombre" class="enlace">cambiar</button></p>
-            <label class="boton boton-grande" for="archivos"><span data-icono="camera"></span> Subir fotos</label>
-            <input type="file" id="archivos" multiple accept="image/*,video/*,.heic,.heif" hidden>
-            <p class="nota" id="notaVideos"></p>
-            <p class="aviso-legal">
-                Al subir fotos aceptas que se compartan con los anfitriones e invitados de este evento.
-                <a href="/terminos.html" target="_blank">Términos y datos personales</a>
-            </p>
+        <section class="linea-subida" id="zonaSubir" hidden>
+            <p><span id="saludo" hidden>Hola, <strong id="nombreVisible"></strong> · <button type="button" id="cambiarNombre" class="enlace">cambiar</button> · </span><span id="notaVideos"></span></p>
+            <p>Al subir fotos aceptas que se compartan con los anfitriones e invitados de este evento. <a href="/terminos.html" target="_blank">Términos</a></p>
         </section>
 
         <section class="tarjeta centro" id="zonaCerrada" hidden>
@@ -62,7 +46,7 @@
                 <h2>Momentos compartidos</h2>
                 <span id="contador"></span>
             </div>
-            <div id="galeria" class="galeria"></div>
+            <div id="galeria" class="galeria album"></div>
             <div id="centinela" class="centinela"></div>
             <p class="galeria-aviso" id="avisoGaleria" role="status" hidden>
                 No se pudieron cargar más fotos.
@@ -74,14 +58,36 @@
 
     <footer class="pie">Hecho con <a href="/" class="marca"></a></footer>
 
-    <div id="barraSubida" class="barra-subida">
-        <div class="barra-texto">
-            <span id="textoSubida" role="status" aria-live="polite"></span>
-            <button type="button" id="reintentar" class="enlace" hidden>Reintentar</button>
+    <!-- Botón de subir siempre a mano, en la zona del pulgar; el avance vive dentro del botón -->
+    <div class="accion-fija" id="accionFija" hidden>
+        <div id="barraSubida" class="barra-subida">
+            <div class="barra-texto">
+                <span id="textoSubida" role="status" aria-live="polite"></span>
+                <button type="button" id="reintentar" class="enlace" hidden>Reintentar</button>
+            </div>
+            <ul id="erroresSubida" class="errores-subida"></ul>
         </div>
-        <div class="progreso"><div id="progreso"></div></div>
-        <ul id="erroresSubida" class="errores-subida"></ul>
+        <label class="boton boton-grande boton-subir" for="archivos" id="botonSubir">
+            <span class="relleno-avance" id="progreso" aria-hidden="true"></span>
+            <span data-icono="camera"></span> <span id="textoBoton">Subir fotos</span>
+        </label>
+        <input type="file" id="archivos" multiple accept="image/*,video/*,.heic,.heif" hidden>
     </div>
+
+    <!-- El nombre se pide la primera vez que tocan "Subir fotos" -->
+    <dialog class="dialogo" id="dialogoNombre" aria-labelledby="tituloNombre">
+        <form id="formNombre" method="dialog">
+            <h2 id="tituloNombre">¿Cómo te llamas?</h2>
+            <p class="nota">Así los anfitriones sabrán quién compartió cada foto.</p>
+            <label for="inputNombre" class="solo-lectores">Tu nombre</label>
+            <input id="inputNombre" maxlength="60" required placeholder="Tu nombre" autocomplete="given-name">
+            <p class="aviso-legal">Al subir fotos aceptas que se compartan con los anfitriones e invitados de este evento.</p>
+            <div class="acciones">
+                <button type="button" class="boton boton-sec" id="cancelarNombre">Ahora no</button>
+                <button class="boton" value="ok">Continuar</button>
+            </div>
+        </form>
+    </dialog>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
     <script src="/config.js"></script>
